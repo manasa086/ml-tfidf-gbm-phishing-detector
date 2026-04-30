@@ -1,0 +1,2806 @@
+"""
+generate_ai_variants.py
+
+Generates 200 AI-quality phishing emails completely from scratch,
+covering 9 social engineering categories. No Kaggle seeds, no API key needed.
+
+Saves to: data/generated/ai_safe_variants.csv
+
+Run:
+    python scripts/generate_ai_variants.py
+"""
+
+from pathlib import Path
+import pandas as pd
+
+project_root = Path(__file__).resolve().parent.parent
+output_path  = project_root / "data" / "generated" / "ai_safe_variants.csv"
+output_path.parent.mkdir(parents=True, exist_ok=True)
+
+# =============================================================================
+# CATEGORY 1 — BANKING FRAUD (30 emails)
+# =============================================================================
+BANKING = [
+
+    # --- Chase (6) ---
+    """Subject: Urgent: Suspicious Activity Detected on Your Chase Account
+
+Dear Valued Customer,
+
+We have detected multiple failed login attempts on your Chase Online Banking account from an unrecognized device located in a foreign country. To protect your account and prevent unauthorized access, we have temporarily restricted your online banking privileges.
+
+To restore access and verify your identity, please visit our secure verification portal within the next 24 hours:
+
+https://secure-chase-account-verify.com/restore
+
+If verification is not completed in time, your account will be permanently suspended and all linked cards will be deactivated.
+
+For questions, contact Chase Customer Support at 1-800-935-9935.
+
+Sincerely,
+James Hartley
+VP, Account Security
+JPMorgan Chase Bank, N.A.""",
+
+    """Subject: Chase Fraud Alert: New Device Login Requires Your Approval
+
+Dear Account Holder,
+
+A sign-in to your Chase account was attempted from a new device:
+
+Device: iPhone 15 Pro
+Location: Lagos, Nigeria
+Time: Today at 2:14 AM EST
+
+If this was you, no action is needed. If you do not recognize this activity, your account may be compromised. Please secure your account immediately:
+
+https://chase-device-verification.com/approve
+
+Failure to respond within 12 hours will result in your account being locked for security purposes.
+
+Chase Fraud Prevention Team
+JPMorgan Chase Bank, N.A.""",
+
+    """Subject: Action Required: Your Chase Debit Card Has Been Blocked
+
+Dear Customer,
+
+Your Chase debit card ending in 4821 has been temporarily blocked following a transaction flagged as potentially fraudulent. A charge of $847.00 was attempted at an unrecognized merchant.
+
+To dispute this charge and restore your card, please verify your identity:
+
+https://chase-card-dispute.com/verify-now
+
+If you do not respond within 48 hours, the transaction will be processed and a dispute may no longer be possible.
+
+Chase Card Services
+JPMorgan Chase Bank, N.A.""",
+
+    """Subject: Important: Your Chase Account Will Be Closed in 48 Hours
+
+Dear Valued Customer,
+
+Despite our repeated attempts to reach you, we have been unable to verify your personal information as required under federal banking compliance regulations (U.S. Patriot Act, Section 326).
+
+Unless we receive your verification within 48 hours, your Chase account will be permanently closed and your balance held pending identity confirmation.
+
+Complete verification here: https://chase-compliance-verify.com/update
+
+We apologize for the inconvenience and appreciate your prompt attention.
+
+Compliance & Verification Department
+JPMorgan Chase Bank, N.A.""",
+
+    """Subject: Chase: Unusual Wire Transfer of $3,500 Initiated From Your Account
+
+Dear Account Holder,
+
+A wire transfer of $3,500.00 has been initiated from your Chase checking account to an international beneficiary. This transfer was flagged by our fraud detection system as it does not match your typical transaction pattern.
+
+If you did not authorize this transfer, please stop it immediately:
+
+https://chase-wire-dispute.com/cancel-transfer
+
+You have approximately 2 hours before the transfer is processed and cannot be reversed.
+
+Chase Fraud Prevention
+JPMorgan Chase Bank, N.A.""",
+
+    """Subject: Chase: Your Online Banking Access Has Been Suspended
+
+Dear Customer,
+
+Your Chase Online Banking account has been suspended due to multiple incorrect password attempts. To protect your financial information, we have locked your account until your identity can be confirmed.
+
+Unlock your account in 3 easy steps:
+1. Visit: https://chase-account-unlock.com/restore
+2. Verify your identity with your SSN and account number
+3. Create a new secure password
+
+Accounts that remain suspended for more than 72 hours may be permanently closed per our security policy.
+
+Chase Digital Security Team""",
+
+    # --- Wells Fargo (5) ---
+    """Subject: Wells Fargo Security Alert: Unrecognized Login Attempt
+
+Dear Wells Fargo Customer,
+
+Our security system has detected a login attempt to your Wells Fargo Online Banking account from an IP address we do not recognize. Your account has been temporarily locked as a precaution.
+
+To unlock your account and confirm your identity, click the link below:
+
+https://wellsfargo-secure-access.com/unlock
+
+This link expires in 24 hours. After expiration, you must visit a branch in person with two forms of government-issued ID.
+
+Wells Fargo Security Team
+Wells Fargo Bank, N.A.""",
+
+    """Subject: Wells Fargo: Your Account Has Been Flagged for Review
+
+Dear Customer,
+
+As part of our ongoing compliance with anti-money laundering regulations, your Wells Fargo account has been selected for a routine identity review. During this review, your ability to make external transfers has been temporarily restricted.
+
+To complete the review and restore full account functionality:
+
+https://wellsfargo-account-review.com/verify
+
+This process takes approximately 5 minutes. Failure to complete the review within 5 business days may result in account closure.
+
+Compliance Department
+Wells Fargo Bank, N.A.""",
+
+    """Subject: Alert: A New Payee Was Added to Your Wells Fargo Account
+
+Dear Account Holder,
+
+A new bill payment payee was added to your Wells Fargo account today. If you did not authorize this change, your account may have been accessed without your knowledge.
+
+Unauthorized payee added:
+Name: Global Commerce Ltd
+Account: ****8872
+Amount scheduled: $1,200.00
+
+To remove this payee and secure your account:
+https://wellsfargo-payee-alert.com/remove
+
+Act within 2 hours to prevent the scheduled payment from processing.
+
+Wells Fargo Online Banking Security""",
+
+    """Subject: Final Notice: Wells Fargo Account Closure in 24 Hours
+
+Dear Valued Customer,
+
+This is your final notice regarding unresolved issues with your Wells Fargo checking account. Our records indicate that your identity documents have not been updated in over 12 months, which is required by federal law.
+
+Your account is scheduled for closure in 24 hours unless you complete identity verification at:
+
+https://wellsfargo-kyc-update.com/verify
+
+Upon successful verification, all account restrictions will be lifted immediately.
+
+Wells Fargo Customer Compliance Team""",
+
+    """Subject: Wells Fargo: $2,340 Transfer Requires Your Confirmation
+
+Dear Customer,
+
+A transfer of $2,340.00 has been requested from your Wells Fargo savings account to an external bank account. Because this is your first time transferring to this recipient, we require your confirmation.
+
+Confirm or cancel this transfer:
+https://wellsfargo-transfer-confirm.com/review
+
+If you do not respond within 1 hour, this transfer will be automatically cancelled for your protection.
+
+Wells Fargo Transfer Security""",
+
+    # --- Bank of America (4) ---
+    """Subject: Bank of America: Immediate Action Required to Avoid Account Suspension
+
+Dear Customer,
+
+We were unable to verify your Bank of America account information during our recent security audit. Your account access has been limited until verification is complete.
+
+Services currently restricted:
+- Online bill pay
+- External transfers
+- Debit card purchases over $200
+
+Restore full access: https://bankofamerica-verify-now.com/update
+
+Verification must be completed within 48 hours to avoid permanent account suspension.
+
+Bank of America Account Services""",
+
+    """Subject: BofA Fraud Alert: $1,099 Apple Store Purchase Flagged
+
+Dear Cardholder,
+
+A transaction of $1,099.00 at an Apple Store was flagged on your Bank of America credit card. This purchase was made in a city you have not previously transacted in.
+
+Confirm or dispute this charge:
+https://bofa-fraud-dispute.com/review-charge
+
+If you do not respond within 24 hours, the transaction will be approved and a dispute may not be possible.
+
+Bank of America Fraud Services""",
+
+    """Subject: Bank of America: Your Account Password Must Be Reset Immediately
+
+Dear Account Holder,
+
+Bank of America has detected that your online banking password may have been exposed in a recent data breach affecting a third-party service. To protect your account, we strongly recommend resetting your password immediately.
+
+Reset your password securely: https://bankofamerica-password-reset.com/secure
+
+After resetting, you will need to re-verify any saved payment methods. This is a precautionary measure to keep your finances safe.
+
+Bank of America Digital Security""",
+
+    """Subject: Urgent: Bank of America Account Verification Required by Law
+
+Dear Customer,
+
+Under the Bank Secrecy Act and FinCEN regulations, Bank of America is required to verify customer information periodically. Our records show your verification is overdue.
+
+Failure to complete verification within 5 business days will result in:
+- Suspension of online banking access
+- Restriction of ATM and debit card use
+- Potential account closure
+
+Update your information: https://bofa-compliance-portal.com/verify
+
+Bank of America Regulatory Compliance""",
+
+    # --- Citibank (3) ---
+    """Subject: Citi Alert: Your Account Has Been Temporarily Suspended
+
+Dear Citi Customer,
+
+Due to suspicious activity detected on your Citi account, we have temporarily suspended your online banking access. Our fraud monitoring system flagged several transactions that do not match your spending history.
+
+To review these transactions and restore access:
+https://citi-fraud-review.com/verify-account
+
+Please complete this process within 24 hours. If you have questions, call Citi Customer Service at 1-800-374-9700.
+
+Citi Fraud Prevention Team""",
+
+    """Subject: Citibank: Confirm Your Identity to Prevent Account Closure
+
+Dear Valued Customer,
+
+Citibank is required by law to update customer records as part of our annual Know Your Customer (KYC) compliance process. Our records show your account information has not been updated since 2022.
+
+Please provide your updated information by visiting:
+https://citibank-kyc-portal.com/update-info
+
+Accounts that are not updated within 7 days will be restricted and may be closed.
+
+Citibank Compliance Department""",
+
+    """Subject: Citi: Unusual Login From New Country — Verify Now
+
+Dear Account Holder,
+
+A login to your Citi account was recorded from Romania at 11:47 PM. This is the first time your account has been accessed from this country.
+
+If this was you, click here to confirm: https://citi-login-verify.com/confirm-me
+If this was NOT you, click here to secure your account: https://citi-login-verify.com/not-me
+
+Failing to respond will result in your account being locked within 6 hours.
+
+Citi Account Security""",
+
+    # --- Capital One (3) ---
+    """Subject: Capital One: Your Credit Card Has Been Temporarily Deactivated
+
+Dear Cardholder,
+
+Your Capital One Venture credit card has been deactivated following suspicious activity detected on your account. Three consecutive declined transactions have triggered our automatic fraud protection.
+
+To reactivate your card and verify your identity:
+https://capitalone-card-reactivate.com/verify
+
+Once verified, your card will be reactivated within minutes and you can resume normal use.
+
+Capital One Card Security""",
+
+    """Subject: Capital One Alert: Large Cash Advance Attempted on Your Account
+
+Dear Capital One Customer,
+
+A cash advance of $2,000 was attempted on your Capital One credit card at an ATM in Mexico City. This transaction has been placed on hold pending your confirmation.
+
+Approve or deny this transaction:
+https://capitalone-cash-advance.com/review
+
+If denied, we will immediately block the transaction and issue you a new card number.
+
+Capital One Fraud Operations""",
+
+    """Subject: Capital One: You Have an Overdue Balance Requiring Immediate Payment
+
+Dear Valued Customer,
+
+Our records show that your Capital One account has an overdue balance of $1,847.32. Despite previous notices, this balance has not been paid and your account is now at risk of being sent to collections.
+
+Pay your balance immediately to avoid further action:
+https://capitalone-payment-portal.com/pay-now
+
+Making a minimum payment of $185.00 today will prevent collection proceedings.
+
+Capital One Collections Department""",
+
+    # --- Other Banks (9) ---
+    """Subject: TD Bank: Your Account Has Been Locked Due to Failed Login Attempts
+
+Dear TD Bank Customer,
+
+Your TD Bank online banking account has been locked after 5 consecutive failed login attempts. This security measure is in place to protect your account from unauthorized access.
+
+Unlock your account: https://tdbank-account-unlock.com/restore-access
+
+You will need to verify your identity using your TD Bank debit card number, PIN, and the last 4 digits of your Social Security Number.
+
+TD Bank Digital Security Team""",
+
+    """Subject: US Bank: Verification Required to Maintain Account Access
+
+Dear Customer,
+
+US Bank is conducting a security verification for accounts that have not completed our two-factor authentication enrollment. Your account has been flagged for this review.
+
+To continue using online banking without interruption:
+https://usbank-2fa-enrollment.com/verify
+
+Accounts not enrolled by the deadline will be restricted to in-branch transactions only.
+
+US Bank Online Banking Security""",
+
+    """Subject: PNC Bank: Suspicious Transaction Requires Your Review
+
+Dear PNC Customer,
+
+The following transaction has been flagged on your PNC Virtual Wallet account:
+
+Date: Today
+Merchant: International Wire — Moscow, RU
+Amount: $4,275.00
+
+If you did not authorize this transaction, report it immediately:
+https://pnc-fraud-report.com/dispute-transaction
+
+PNC Fraud and Security Center""",
+
+    """Subject: Ally Bank: Your Account Has Unusual Activity — Act Now
+
+Dear Ally Customer,
+
+Our system has detected unusual activity on your Ally Online Savings account. An unrecognized IP address was used to initiate multiple transfers totaling $6,500.
+
+Secure your account immediately: https://ally-bank-security.com/secure-account
+
+If this activity was authorized by you, you can dismiss this alert. Otherwise, please act within the next 4 hours to stop pending transfers.
+
+Ally Bank Security Operations""",
+
+    """Subject: American Express: Verify Your Cardmember Account to Avoid Suspension
+
+Dear Cardmember,
+
+American Express requires you to verify your account information to comply with the latest Know Your Customer regulatory requirements. Your account privileges have been temporarily reduced pending verification.
+
+Complete verification: https://amex-account-verify.com/cardmember-update
+
+As a reminder, unverified accounts cannot be used for transactions exceeding $500 per day.
+
+American Express Account Services""",
+
+    """Subject: Discover: Unusual Spending Pattern Detected on Your Card
+
+Dear Discover Cardmember,
+
+We noticed a series of purchases in a short time period that is inconsistent with your normal spending pattern. To protect you, we have placed a temporary hold on new purchases.
+
+Review flagged transactions: https://discover-card-review.com/transactions
+
+You can lift the hold immediately after confirming these transactions or reporting them as fraudulent.
+
+Discover Fraud Protection Team""",
+
+    """Subject: HSBC: Your International Transfer Has Been Temporarily Blocked
+
+Dear HSBC Customer,
+
+An international wire transfer of $8,500.00 to an account in the United Arab Emirates was blocked by our compliance team. This transfer requires additional documentation under OFAC regulations.
+
+To release this transfer, please submit the required documents:
+https://hsbc-compliance-transfer.com/submit-docs
+
+Failure to provide documentation within 48 hours will result in the cancellation of this transfer.
+
+HSBC Global Compliance""",
+
+    """Subject: Navy Federal: Your Account Access Has Been Suspended
+
+Dear Navy Federal Member,
+
+Access to your Navy Federal Credit Union account has been suspended following our detection of potentially fraudulent activity. This suspension affects all digital banking services including mobile, online banking, and credit card use.
+
+Restore your access: https://navyfederal-account-restore.com/verify-member
+
+You will need your member number and SSN to complete the verification process.
+
+Navy Federal Credit Union Security""",
+
+    """Subject: Fidelity: Your Brokerage Account Password Has Expired
+
+Dear Fidelity Customer,
+
+Your Fidelity Investments online password has expired per our 90-day security rotation policy. Until your password is updated, you will not be able to view balances, execute trades, or transfer funds.
+
+Update your password now: https://fidelity-password-update.com/reset
+
+For your security, Fidelity will never call you to request your password. Please only update your password through our secure portal.
+
+Fidelity Digital Security""",
+]
+
+# =============================================================================
+# CATEGORY 2 — IT / TECH ALERTS (25 emails)
+# =============================================================================
+IT_ALERTS = [
+
+    """Subject: Action Required: Your Microsoft 365 Password Expires in 24 Hours
+
+Dear User,
+
+This is an automated notification from the Microsoft IT Security team. Your Microsoft 365 account password is scheduled to expire within 24 hours.
+
+Failure to update your password will result in loss of access to Outlook, Teams, SharePoint, OneDrive, and all associated Microsoft services.
+
+Update your password now: https://microsoft365-password-portal.com/reset
+
+This link is valid for 24 hours only. If you require assistance, contact your IT administrator.
+
+Microsoft Account Services
+This is an automated message — please do not reply.""",
+
+    """Subject: Google Account: Suspicious Sign-In Blocked — Action Required
+
+Hi,
+
+We blocked a sign-in attempt to your Google account from:
+
+Device: Windows PC
+Location: Bucharest, Romania
+Time: 3:22 AM
+
+If this was not you, your account may be at risk. Secure your account immediately:
+https://accounts-google-secure.com/review-activity
+
+If you do not act within 12 hours, we will be forced to suspend your account to protect your data.
+
+Google Security Team""",
+
+    """Subject: Your Apple ID Has Been Locked — Verify Now to Restore Access
+
+Dear Apple Customer,
+
+Your Apple ID has been locked because we detected unusual activity that appears to violate our Terms of Service. Access to the App Store, iCloud, Apple Pay, and all Apple services has been suspended.
+
+Unlock your Apple ID: https://appleid-account-restore.com/unlock
+
+You will need to verify your name, date of birth, and payment method on file to restore access.
+
+Apple Support
+One Apple Park Way, Cupertino, CA 95014""",
+
+    """Subject: Zoom: Your Account Has Been Deactivated Due to Policy Violation
+
+Dear Zoom User,
+
+Your Zoom account has been deactivated following a review of recent meeting activity that may violate our Community Standards. All scheduled meetings have been cancelled.
+
+If you believe this is a mistake, you may appeal this decision within 30 days:
+https://zoom-account-appeal.com/submit-appeal
+
+Accounts under appeal review for more than 30 days without a resolution will be permanently deleted.
+
+Zoom Trust & Safety""",
+
+    """Subject: Slack: Your Workspace Access Has Been Revoked
+
+Dear User,
+
+Your access to the Slack workspace has been revoked by your workspace administrator following a security review. This action was taken due to suspicious login activity detected on your account.
+
+To restore access, contact your workspace admin or verify your identity:
+https://slack-workspace-restore.com/verify
+
+If you believe this was done in error, please respond to this email within 48 hours.
+
+Slack Security Team""",
+
+    """Subject: Dropbox: Your Account Storage Is Full — Verify to Avoid Data Loss
+
+Dear Dropbox User,
+
+Your Dropbox account has reached its storage limit and file syncing has been paused. Any new files added to your Dropbox folder will not be synced until your storage issue is resolved.
+
+Additionally, files not synced for more than 30 days may be removed from our servers.
+
+Verify your account to upgrade storage: https://dropbox-storage-verify.com/upgrade
+
+Act within 7 days to prevent data loss.
+
+The Dropbox Team""",
+
+    """Subject: LinkedIn: Someone Applied for Jobs Using Your Account
+
+Dear LinkedIn Member,
+
+We detected that your LinkedIn account was used to apply for 17 job positions from an unrecognized device. This activity appears to be unauthorized.
+
+To protect your professional reputation, please review and reverse these applications:
+https://linkedin-security-review.com/account-activity
+
+If you do not take action within 24 hours, we cannot guarantee these applications can be retracted.
+
+LinkedIn Trust & Safety""",
+
+    """Subject: GitHub: Your Account Has Been Flagged for Suspicious Activity
+
+Dear GitHub User,
+
+Unusual activity has been detected on your GitHub account. Someone has cloned all your private repositories from an IP address in a foreign country.
+
+Secure your account immediately: https://github-security-alert.com/review
+
+We recommend revoking all active SSH keys and OAuth tokens and enabling two-factor authentication if you have not already done so.
+
+GitHub Security""",
+
+    """Subject: IT Department: Mandatory Security Compliance Training — Complete by Friday
+
+Dear Employee,
+
+As part of our company's annual cybersecurity compliance program, all employees are required to complete mandatory security awareness training by this Friday at 5:00 PM.
+
+Employees who do not complete the training will have their network access suspended until compliance is achieved.
+
+Access training portal: https://it-security-training-portal.com/login
+
+Use your corporate email and your current network password to log in.
+
+IT Security & Compliance Team""",
+
+    """Subject: IT Helpdesk: Your VPN License Has Expired — Renew Now
+
+Dear Employee,
+
+Your remote access VPN license expired at midnight. You will not be able to connect to the corporate network remotely until your license is renewed.
+
+Renew your VPN license: https://corporate-vpn-renew.com/employee-portal
+
+Please log in with your Active Directory credentials. If you have questions, submit a ticket to the IT helpdesk at extension 4400.
+
+IT Helpdesk""",
+
+    """Subject: Microsoft: Your OneDrive Account Will Be Deleted in 7 Days
+
+Dear Microsoft User,
+
+Your OneDrive account has been inactive for more than 12 months. Per Microsoft's data retention policy, inactive accounts and all associated files will be permanently deleted in 7 days.
+
+To keep your account and data active, sign in here:
+https://microsoft-onedrive-restore.com/keep-account
+
+Once you sign in, your account will be marked as active and the deletion will be cancelled.
+
+Microsoft OneDrive Team""",
+
+    """Subject: Adobe Creative Cloud: Your Subscription Has Been Cancelled
+
+Dear Adobe Customer,
+
+We were unable to process your Adobe Creative Cloud subscription renewal. As a result, your subscription has been cancelled and you will lose access to all Adobe applications including Photoshop, Illustrator, Premiere Pro, and Acrobat.
+
+Reactivate your subscription: https://adobe-cc-reactivate.com/billing-update
+
+You have 7 days to reactivate before your files stored in Creative Cloud are permanently deleted.
+
+Adobe Customer Care""",
+
+    """Subject: Outlook: Your Mailbox Has Exceeded Its Storage Limit
+
+Dear User,
+
+Your Microsoft Outlook mailbox has exceeded its storage quota of 50 GB. Incoming emails are currently being rejected and you may not be able to send new messages.
+
+To resolve this issue, please verify your account and upgrade your storage:
+https://outlook-storage-upgrade.com/verify
+
+Alternatively, you can free up space by permanently deleting emails from your Sent and Deleted folders.
+
+Microsoft Outlook Support""",
+
+    """Subject: DocuSign: You Have a Document Waiting for Your Signature — Expires Today
+
+Dear Recipient,
+
+A document has been sent to you via DocuSign for your electronic signature. This document is set to expire today at 11:59 PM.
+
+Document: Confidential Employment Agreement — Amendment 2025
+Sender: Patricia Owens, HR Director
+
+Review and sign: https://docusign-sign-now.com/document?id=77291
+
+If you have questions about the contents of this document, please contact the sender directly.
+
+DocuSign Electronic Signature Platform""",
+
+    """Subject: Facebook: Your Account Will Be Permanently Disabled in 24 Hours
+
+Dear Facebook User,
+
+Your Facebook account has been reported multiple times for violating our Community Standards. After reviewing these reports, we have decided to permanently disable your account in 24 hours.
+
+If you believe this is a mistake, you may file an appeal before the deadline:
+https://facebook-account-appeal.com/dispute
+
+Accounts that are disabled cannot be recovered after the 24-hour window has passed.
+
+Facebook Community Operations""",
+
+    """Subject: Instagram: Your Account Has Been Temporarily Restricted
+
+Dear Instagram User,
+
+Your Instagram account has been temporarily restricted following reports of unusual activity. During this restriction period, your posts will not appear in hashtag searches or the Explore page, and your account reach has been significantly reduced.
+
+Restore your account: https://instagram-account-restore.com/verify-identity
+
+Complete the identity verification to lift restrictions and restore your full account functionality.
+
+Instagram Support""",
+
+    """Subject: Twitter/X: Your Account Is Scheduled for Suspension
+
+Dear X User,
+
+Your X (formerly Twitter) account has been flagged for review due to suspected automated activity that violates our Automation Rules. Your account is scheduled for suspension in 48 hours.
+
+To prevent suspension and verify your account:
+https://x-account-verify.com/human-check
+
+If your account is suspended, all your posts, followers, and account history will be inaccessible.
+
+X Trust & Safety""",
+
+    """Subject: AWS: Unusual API Activity Detected — Immediate Action Required
+
+Dear AWS Account Holder,
+
+AWS has detected unusual API calls in your account that may indicate unauthorized access. API calls were made from an IP address not previously associated with your account.
+
+Calls detected:
+- EC2 instance launches (×12) in us-east-1
+- S3 bucket creation (×4)
+- IAM user creation (×2)
+
+Review and secure your account: https://aws-security-alert.com/review-activity
+
+If unauthorized, your account may currently be incurring charges. Please act immediately.
+
+AWS Security Team""",
+
+    """Subject: Salesforce: Your CRM Access Has Been Revoked
+
+Dear Salesforce User,
+
+Your Salesforce CRM access has been temporarily revoked by your system administrator following detection of abnormal data export activity. Approximately 14,000 contact records were exported in a single session.
+
+If you did not perform this export, your credentials may be compromised.
+
+Secure your account: https://salesforce-account-secure.com/review
+
+Please do not share your Salesforce login credentials with anyone.
+
+Salesforce Security Operations""",
+
+    """Subject: Norton: Your Antivirus Subscription Has Expired — Your Device Is at Risk
+
+Dear Norton Customer,
+
+Your Norton 360 subscription expired 3 days ago. Your device is no longer protected against viruses, malware, ransomware, and online threats.
+
+Renew your subscription now to restore protection:
+https://norton-renewal-secure.com/renew
+
+As a valued customer, we are offering a 50% discount if you renew within the next 24 hours.
+
+Norton by Symantec""",
+
+    """Subject: McAfee: Critical Threat Detected on Your Device — Act Now
+
+Dear McAfee Customer,
+
+Our cloud-based threat intelligence has detected a critical security threat on a device registered to your McAfee account. The threat — identified as Trojan.GenericKD.72 — is actively exfiltrating your personal data.
+
+Remove the threat immediately: https://mcafee-threat-removal.com/scan
+
+Your McAfee subscription must be active to remove this threat. If your subscription has lapsed, you can renew and remove the threat in one step.
+
+McAfee Threat Response Center""",
+
+    """Subject: Webex: Your Cisco Webex Account Has Been Suspended
+
+Dear Webex User,
+
+Your Cisco Webex account has been suspended due to a billing dispute. All scheduled meetings have been cancelled and participants have been notified.
+
+To resolve this issue and restore your account:
+https://webex-account-restore.com/billing
+
+If payment was recently made, it may take up to 24 hours to process. You can check your billing status at the link above.
+
+Cisco Webex Customer Support""",
+
+    """Subject: LastPass: Your Password Vault May Have Been Compromised
+
+Dear LastPass User,
+
+We have detected an unauthorized access attempt to your LastPass account. Someone attempted to export your password vault from an unrecognized browser.
+
+Secure your vault immediately: https://lastpass-vault-secure.com/lock-account
+
+We strongly recommend:
+1. Changing your master password
+2. Reviewing your vault for unauthorized changes
+3. Enabling multi-factor authentication
+
+LastPass Security Team""",
+
+    """Subject: Spotify: Two-Factor Authentication Required — Verify Your Account
+
+Dear Spotify User,
+
+As part of our enhanced security rollout, Spotify now requires all users to enroll in two-factor authentication. Your account has been placed in limited mode until you complete this enrollment.
+
+In limited mode:
+- You cannot create or edit playlists
+- Offline downloads have been disabled
+- Premium features are temporarily suspended
+
+Enroll now: https://spotify-2fa-enroll.com/setup
+
+Spotify Account Security""",
+
+    """Subject: PayPal: Your Business Account Has Been Limited
+
+Dear Business Account Holder,
+
+We have placed a limitation on your PayPal business account following a review of your recent transaction history. This limitation affects your ability to withdraw funds, send payments, and receive payments above $500.
+
+To resolve this limitation and restore full business account functionality:
+https://paypal-business-restore.com/submit-documents
+
+You will be asked to provide business registration documents, a government-issued ID, and recent bank statements.
+
+PayPal Business Compliance Team""",
+]
+
+# =============================================================================
+# CATEGORY 3 — DELIVERY SCAMS (20 emails)
+# =============================================================================
+DELIVERY = [
+
+    """Subject: USPS Delivery Notification: Package Held — Address Undeliverable
+
+Dear Customer,
+
+Your USPS package (Tracking #9400111899223409876543) could not be delivered because the address on file is incomplete or incorrect. Your package is currently being held at your local post office.
+
+To schedule redelivery with your correct address:
+https://usps-redelivery-portal.com/update-address
+
+A redelivery fee of $2.99 applies. Your package will be held for 7 days before being returned to the sender.
+
+United States Postal Service""",
+
+    """Subject: FedEx: Your Package Requires Customs Clearance — Fee Due
+
+Dear Recipient,
+
+Your FedEx international shipment (Tracking: FX-9184027-US) has arrived at the US customs facility. A customs clearance fee of $3.49 is required before your package can be released for delivery.
+
+Pay customs fee and release your package:
+https://fedex-customs-fee.com/pay-now
+
+Payment must be received within 48 hours or the package will be returned to the sender at your expense.
+
+FedEx International Priority Support""",
+
+    """Subject: UPS: Delivery Exception — Signature Required
+
+Dear UPS Customer,
+
+We attempted to deliver your UPS package (1Z999AA10123456784) today but were unable to complete delivery as a signature is required and no one was available.
+
+Reschedule your delivery or authorize release:
+https://ups-delivery-reschedule.com/manage
+
+Options:
+• Schedule a new delivery date
+• Authorize delivery without signature
+• Pick up at a UPS Access Point location
+
+Your package will be held for 5 business days.
+
+UPS Customer Service""",
+
+    """Subject: DHL Express: Import Duty Notice — Payment Required
+
+Dear DHL Customer,
+
+Your DHL Express shipment (Waybill: 1234567890) is being held at our customs facility pending payment of import duties and taxes.
+
+Amount due: $7.85
+Package contents: Electronics
+Origin: United Kingdom
+
+Pay import duties: https://dhl-import-duties.com/pay
+
+Your package will be released for delivery within 24 hours of payment. Failure to pay within 5 business days will result in the package being abandoned.
+
+DHL Express Customs Division""",
+
+    """Subject: Amazon: We Were Unable to Deliver Your Package
+
+Dear Customer,
+
+We attempted to deliver your Amazon order (#113-8827463-0029384) today but were unsuccessful. The delivery driver was unable to locate your address or access your building.
+
+Reschedule your delivery: https://amazon-delivery-reschedule.com/manage
+
+Your package will be returned to our fulfillment center in 3 business days if a new delivery time is not selected.
+
+Amazon Logistics""",
+
+    """Subject: USPS: Your Package Is Being Returned to Sender
+
+Dear Customer,
+
+Your USPS package (Tracking #9400111899223409871234) has been flagged for return to sender due to an incomplete delivery address. This package will be processed for return within 24 hours.
+
+To intercept this package and update the delivery address before it is returned:
+https://usps-package-intercept.com/redirect
+
+A package intercept fee of $15.25 applies and must be paid before redirection can be processed.
+
+USPS Package Intercept Service""",
+
+    """Subject: FedEx: Your Package Could Not Be Delivered — Action Required Today
+
+Dear Recipient,
+
+FedEx was unable to deliver your package today. Three delivery attempts have been made and we were unsuccessful each time. As a result, your package is scheduled to be returned to the sender in 24 hours.
+
+To prevent the return and arrange pickup or redelivery:
+https://fedex-final-delivery.com/arrange-pickup
+
+Package details:
+Tracking: FX-7291048-US
+Weight: 2.4 lbs
+Shipper: Online Retailer
+
+FedEx Delivery Support""",
+
+    """Subject: UPS My Choice: A Package Addressed to You Has a Problem
+
+Dear UPS My Choice Member,
+
+A package addressed to you cannot be delivered as scheduled. The shipper provided an address that does not match a deliverable location in our system.
+
+Update delivery details: https://ups-address-correction.com/update
+
+If you do not update your delivery information within 48 hours, this package will be returned and you may need to contact the sender for a reshipment.
+
+UPS My Choice""",
+
+    """Subject: DHL: Shipment Delayed — Verification Required to Release Package
+
+Dear Customer,
+
+Your DHL shipment (Waybill: 0987654321) has been delayed at our sorting facility. To comply with new import regulations, we require identity verification before releasing packages valued over $100.
+
+Verify your identity and release your shipment:
+https://dhl-shipment-verify.com/id-check
+
+This verification process takes less than 3 minutes. Your package will be delivered the next business day after verification is complete.
+
+DHL Compliance Operations""",
+
+    """Subject: Amazon: A Package Sent to You Has Been Flagged
+
+Dear Recipient,
+
+A package sent to your address has been flagged by our delivery system for an address verification issue. Until this is resolved, the package will not be delivered.
+
+The sender has authorized us to contact you directly to resolve the issue:
+https://amazon-address-verify.com/confirm
+
+Please confirm your delivery address and preferred delivery time. This package contains a gift and the sender would like to keep the contents a surprise.
+
+Amazon Customer Service""",
+
+    """Subject: USPS Informed Delivery: Package Scan Failed — Update Required
+
+Dear Informed Delivery User,
+
+A package destined for your address was scanned at a USPS facility but could not be matched to your delivery profile. To ensure successful delivery, please verify your address information.
+
+Update your delivery profile: https://usps-informed-delivery.com/update-address
+
+If your address is not verified within 3 business days, this package will be held at your local post office for pickup.
+
+USPS Informed Delivery""",
+
+    """Subject: FedEx International: Your Shipment Has Cleared Customs
+
+Dear Recipient,
+
+Your FedEx international shipment has cleared US Customs and is ready for final delivery. However, before delivery can be completed, we need you to confirm your delivery address and pay a small broker fee.
+
+Confirm delivery and pay broker fee ($4.99):
+https://fedex-broker-fee.com/confirm-delivery
+
+Your package will be out for delivery within 24 hours of confirmation.
+
+FedEx International Brokerage""",
+
+    """Subject: UPS: Delivery Suspended — Outstanding Balance on Account
+
+Dear UPS Customer,
+
+Delivery of your current UPS shipment has been suspended due to an outstanding balance of $8.40 on your UPS account from a previous shipment.
+
+Pay your balance and release your current shipment:
+https://ups-account-balance.com/pay
+
+Once your balance is paid, your current package will be delivered the next business day.
+
+UPS Billing Department""",
+
+    """Subject: DHL: Your Package Has Arrived in the Country — Customs Form Required
+
+Dear Recipient,
+
+Your DHL international package has arrived in the United States. To proceed with customs clearance, you are required to complete a recipient customs declaration form.
+
+Complete your customs form: https://dhl-customs-form.com/complete
+
+Note: Failure to complete this form within 48 hours may result in your package being seized by US Customs and Border Protection.
+
+DHL Customs Compliance""",
+
+    """Subject: Amazon Logistics: Delivery Attempt Failed — Confirm Your Address
+
+Dear Amazon Customer,
+
+Our delivery partner attempted to deliver your package to the address on file but was unable to complete the delivery. The address could not be located by our GPS navigation system.
+
+Confirm your delivery address: https://amazon-confirm-address.com/update
+
+Your package will be held at our local delivery station for 3 days. After that, it will be returned to Amazon and you will receive a refund.
+
+Amazon Customer Service""",
+
+    """Subject: USPS Priority Mail: Package Held at Customs — Duty Required
+
+Dear Customer,
+
+Your USPS Priority Mail International package is being held at the US Customs facility in Los Angeles. A customs duty of $12.40 must be paid before your package can be released.
+
+Pay customs duty: https://usps-customs-payment.com/pay-duty
+
+Reference number: CM-2024-9918823
+Package description: Personal goods
+Value declared: $150.00
+
+USPS International Mail Service""",
+
+    """Subject: FedEx: Weather Delay — Confirm Alternate Delivery Date
+
+Dear Valued FedEx Customer,
+
+Due to severe weather conditions affecting our delivery routes, your FedEx shipment (Tracking: FX-4482901-US) has been delayed. We are offering you the opportunity to select an alternate delivery date.
+
+Select your preferred delivery date: https://fedex-reschedule.com/weather-delay
+
+Available dates: Monday, Wednesday, or Friday of next week. If no selection is made, we will attempt delivery on the next available date.
+
+FedEx Weather Operations""",
+
+    """Subject: UPS: Your Package Was Delivered to the Wrong Address — Act Now
+
+Dear Customer,
+
+Our tracking data shows your UPS package was delivered to an incorrect address due to a label scanning error. We sincerely apologize for this inconvenience.
+
+To file a claim and arrange for correct delivery:
+https://ups-misdelivery-claim.com/file-claim
+
+You will receive compensation of $25.00 UPS credit and your package will be redelivered at no additional charge.
+
+UPS Customer Claims Department""",
+
+    """Subject: DHL: Your Shipment Requires Additional Documentation
+
+Dear DHL Customer,
+
+Your international DHL shipment (Waybill: 5544332211) has been held by customs authorities who require additional documentation before releasing the package.
+
+Required documents:
+- Copy of purchase invoice
+- Proof of recipient identity
+- Import permit (for regulated items)
+
+Submit your documents: https://dhl-document-submit.com/upload
+
+Your package will be released within 24 hours of receiving complete documentation.
+
+DHL Customs Affairs""",
+
+    """Subject: Amazon: Package Damaged in Transit — Confirm Replacement Shipment
+
+Dear Valued Customer,
+
+Your Amazon order (#114-9837261-8829301) was damaged during transit and cannot be delivered in its current condition. We would like to send you a replacement at no charge.
+
+To confirm your replacement shipment, please verify your delivery address:
+https://amazon-replacement-confirm.com/verify-address
+
+Your replacement will be shipped within 1–2 business days once your address is confirmed.
+
+Amazon Customer Experience Team""",
+]
+
+# =============================================================================
+# CATEGORY 4 — GOVERNMENT NOTICES (20 emails)
+# =============================================================================
+GOVERNMENT = [
+
+    """Subject: IRS Notice: You Are Eligible for a Tax Refund of $3,847
+
+Dear Taxpayer,
+
+Our records indicate you are entitled to a federal income tax refund of $3,847.00 for the 2024 tax year. This refund has not yet been claimed and will expire if not processed within 90 days.
+
+To claim your refund, verify your identity and confirm your direct deposit information:
+https://irs-refund-portal-secure.com/claim
+
+Please note that the IRS never initiates contact by email, text, or social media requesting personal or financial information. This notice is an exception under the Taxpayer Account Review Program.
+
+Internal Revenue Service
+Refund Processing Division""",
+
+    """Subject: IRS Final Notice: Unpaid Tax Balance — Legal Action Pending
+
+Dear Taxpayer,
+
+Our records indicate an outstanding federal tax liability of $5,283.00 that remains unpaid despite previous notices. Failure to resolve this balance will result in:
+
+• Federal tax lien placed on your property
+• Wage garnishment initiated through your employer
+• Bank account levy
+• Referral to the Department of Justice for criminal tax prosecution
+
+Resolve your balance immediately: https://irs-tax-resolution.com/pay-balance
+
+You may also request a payment plan or Offer in Compromise through the same portal.
+
+IRS Collections & Enforcement Division""",
+
+    """Subject: Social Security Administration: Your Benefits Are Suspended
+
+Dear Beneficiary,
+
+This is an official notice from the Social Security Administration. Your Social Security benefits have been temporarily suspended due to suspicious activity associated with your Social Security Number.
+
+Your SSN was found in connection with illegal transactions currently under federal investigation. If you do not contact us to verify your identity immediately, your SSN will be permanently suspended.
+
+Verify your identity: https://ssa-gov-verify.com/beneficiary-check
+
+Failure to respond within 24 hours may result in the issuance of a new SSN and the forfeiture of your accumulated benefits.
+
+Social Security Administration
+Office of Inspector General""",
+
+    """Subject: Medicare: Your Coverage Will Lapse — Enrollment Action Required
+
+Dear Medicare Beneficiary,
+
+Your Medicare coverage is scheduled to lapse at the end of this month due to an administrative error in our system. To prevent a lapse in your health coverage, you must re-enroll immediately.
+
+Re-enroll to maintain coverage: https://medicare-enrollment-secure.com/renew
+
+If your coverage lapses, you may face a penalty period of up to 10% higher premiums when you re-enroll, and you will not have coverage for any medical expenses during the lapse period.
+
+Centers for Medicare & Medicaid Services""",
+
+    """Subject: Department of Treasury: Unclaimed Funds of $9,240 in Your Name
+
+Dear Citizen,
+
+The United States Department of Treasury has identified unclaimed federal funds of $9,240.00 held in your name. These funds originate from an overpayment of federal benefits, an uncashed government check, or a tax credit that was never applied.
+
+To claim these funds, you must verify your identity and provide bank information for direct deposit:
+https://treasury-unclaimed-funds.com/claim
+
+All claims must be submitted within 60 days or the funds will be transferred to the state unclaimed property fund.
+
+U.S. Department of Treasury
+Bureau of the Fiscal Service""",
+
+    """Subject: IRS: You Are Being Audited — Respond Within 30 Days
+
+Dear Taxpayer,
+
+The Internal Revenue Service has selected your 2023 federal tax return for a correspondence audit. Discrepancies were found between your reported income and information provided by third parties.
+
+Items under review:
+• Schedule C — Business income ($14,200 discrepancy)
+• Charitable deductions claimed ($8,500)
+• Home office deduction
+
+Submit your supporting documentation: https://irs-audit-response.com/submit-docs
+
+Failure to respond within 30 days will result in the IRS adjusting your tax return and issuing a bill for additional taxes owed, plus penalties and interest.
+
+IRS Examination Division""",
+
+    """Subject: FAFSA: Your Financial Aid Application Is Incomplete
+
+Dear Student,
+
+Your Free Application for Federal Student Aid (FAFSA) for the 2025–2026 academic year is incomplete. Missing information must be submitted before your application can be processed.
+
+Missing items:
+• Parent tax information (IRS Data Retrieval Tool not completed)
+• Signature from student and parent
+• Verification of household size
+
+Complete your FAFSA: https://studentaid-fafsa-complete.com/finish-application
+
+Incomplete applications cannot be processed and you may lose your eligibility for federal grants, work-study, and subsidized loans.
+
+U.S. Department of Education
+Federal Student Aid""",
+
+    """Subject: Student Loan Forgiveness: You Have Been Pre-Qualified
+
+Dear Borrower,
+
+Based on your federal student loan history and employment records, you have been pre-qualified under the Public Service Loan Forgiveness (PSLF) program. You may be eligible to have up to $20,000 of your remaining balance forgiven.
+
+Complete your application: https://studentaid-forgiveness-apply.com/pslf
+
+Application deadline: This program cycle closes in 14 days. Applications received after the deadline will not be considered until the next cycle.
+
+U.S. Department of Education
+Federal Student Aid Office""",
+
+    """Subject: Department of Labor: Unemployment Claim Requires Verification
+
+Dear Claimant,
+
+Your unemployment insurance claim has been placed on hold pending identity verification. We were unable to verify your identity automatically through our system.
+
+Until verification is complete, your weekly benefits will not be disbursed.
+
+Complete identity verification: https://dol-unemployment-verify.com/id-check
+
+You will need to provide your driver's license number, Social Security Number, and last employer information. Verification typically takes 1–2 business days.
+
+U.S. Department of Labor
+Employment and Training Administration""",
+
+    """Subject: U.S. Customs and Border Protection: Your Package Has Been Detained
+
+Dear Recipient,
+
+A package addressed to you has been detained by U.S. Customs and Border Protection at the Miami International Mail Facility. The package contains items that may be subject to import restrictions.
+
+To claim your package and prevent confiscation:
+https://cbp-package-release.com/claim
+
+You will be required to provide proof of identity, proof of purchase, and pay any applicable import duties. Packages not claimed within 30 days will be forfeited.
+
+U.S. Customs and Border Protection
+Trade Facilitation and Cargo Security""",
+
+    """Subject: FBI Cyber Division: Your Identity May Have Been Stolen
+
+Dear Citizen,
+
+The Federal Bureau of Investigation Cyber Division has identified your personal information, including your Social Security Number and financial account details, in a dark web data breach.
+
+To protect yourself and file a report:
+https://fbi-cyber-division.com/identity-theft-report
+
+Filing a report is free and takes approximately 10 minutes. You will receive a case number that you can use to dispute fraudulent accounts opened in your name.
+
+Federal Bureau of Investigation
+Cyber Division — Identity Theft Unit""",
+
+    """Subject: State Tax Board: Delinquent Tax Notice — Pay Within 10 Days
+
+Dear Taxpayer,
+
+The State Tax Board has assessed a delinquent state income tax balance of $1,847.00 for the 2023 tax year. This assessment includes unpaid taxes, penalties of $184.70 (10%), and accrued interest of $62.33.
+
+Total amount due: $2,094.03
+
+Pay your balance: https://state-tax-board-payment.com/pay-now
+
+Failure to pay within 10 days will result in a state tax lien and referral to the State Attorney General's office for collection.
+
+State Tax Board
+Compliance and Collections Division""",
+
+    """Subject: SBA: Your Small Business Loan Application Has Been Approved
+
+Dear Business Owner,
+
+Congratulations! Your U.S. Small Business Administration (SBA) loan application has been conditionally approved for $75,000 at a rate of 5.25% APR. This funding is available through our Economic Injury Recovery Program.
+
+To receive your funds, complete the acceptance process:
+https://sba-loan-acceptance.com/accept-funding
+
+You will need to provide your EIN, business bank account information, and sign the loan agreement digitally. Funds will be deposited within 3 business days of acceptance.
+
+U.S. Small Business Administration
+Office of Capital Access""",
+
+    """Subject: Social Security: New Card Required — Your Current Card Is Being Deactivated
+
+Dear Social Security Number Holder,
+
+The Social Security Administration is issuing new Social Security cards with enhanced security features. Your current Social Security card will be deactivated on the 15th of next month.
+
+To receive your new card and avoid any disruption to your benefits:
+https://ssa-new-card-request.com/apply
+
+You will need to verify your identity and provide a current mailing address. Your new card will arrive within 7–10 business days.
+
+Social Security Administration
+Office of Earnings Operations""",
+
+    """Subject: IRS: Economic Impact Payment Unclaimed — Verify to Receive Funds
+
+Dear Citizen,
+
+Our records indicate you have an unclaimed Economic Impact Payment of $1,400 that was issued during the COVID-19 relief program. This payment was returned undelivered and is currently being held by the IRS.
+
+To claim your payment: https://irs-eip-claim.com/verify-eligibility
+
+You must verify your identity and provide current direct deposit information. Unclaimed payments after 12 months are transferred to the U.S. Treasury general fund.
+
+Internal Revenue Service
+Economic Impact Payment Processing Center""",
+
+    """Subject: DMV: Your Driver's License Will Be Suspended in 72 Hours
+
+Dear Driver,
+
+The Department of Motor Vehicles has records indicating your driver's license is subject to suspension in 72 hours due to unpaid traffic violations and an outstanding failure-to-appear warrant.
+
+To prevent suspension and resolve outstanding issues:
+https://dmv-license-reinstatement.com/pay-fines
+
+Outstanding fines: $347.00
+Reinstatement fee: $55.00
+Total due: $402.00
+
+DMV License Compliance Department""",
+
+    """Subject: Census Bureau: Your Mandatory Survey Response Is Overdue
+
+Dear Resident,
+
+The U.S. Census Bureau has been attempting to reach you regarding your mandatory completion of the American Community Survey. Response to this survey is required by law under Title 13 of the U.S. Code.
+
+Failure to respond may result in a fine of up to $5,000.
+
+Complete your survey: https://census-bureau-survey.com/respond
+
+This survey takes approximately 15 minutes to complete and covers topics including housing, employment, and household composition.
+
+U.S. Census Bureau
+American Community Survey Division""",
+
+    """Subject: Medicaid: Your Coverage Has Been Terminated — Appeal Immediately
+
+Dear Medicaid Recipient,
+
+Your Medicaid coverage has been terminated following an annual eligibility redetermination. Based on information currently in our system, your household income exceeds the eligibility threshold.
+
+If you believe this determination is incorrect, you may appeal:
+https://medicaid-appeal-portal.com/file-appeal
+
+You have 90 days from the date of this notice to file an appeal. During the appeal process, you may be eligible to continue receiving Medicaid benefits.
+
+State Medicaid Agency
+Eligibility and Enrollment Division""",
+
+    """Subject: Jury Duty: Failure to Appear — Warrant Issued for Your Arrest
+
+Dear Citizen,
+
+Our records indicate you failed to appear for jury duty as required by the court summons issued on your behalf. A warrant for your arrest may be issued within 24 hours if you do not contact the court immediately.
+
+To resolve this matter before a warrant is issued:
+https://court-jury-duty-resolve.com/contact-court
+
+You must pay a failure-to-appear fine of $250 and reschedule your jury service. Ignoring this notice may result in arrest and a contempt of court charge.
+
+Office of the Court Clerk
+Civil Division""",
+
+    """Subject: TSA PreCheck: Your Membership Has Expired — Renew to Keep Benefits
+
+Dear TSA PreCheck Member,
+
+Your TSA PreCheck membership expired last month. Without an active membership, you will no longer have access to expedited security screening at over 200 U.S. airports.
+
+Renew your membership: https://tsa-precheck-renew.com/membership
+
+Renewal cost: $78 for 5 years
+Alternative: Global Entry renewal ($100 for 5 years, includes TSA PreCheck)
+
+Renew within 30 days to avoid a gap in your trusted traveler benefits.
+
+Transportation Security Administration""",
+]
+
+# =============================================================================
+# CATEGORY 5 — PRIZE / REWARD LURES (20 emails)
+# =============================================================================
+PRIZE = [
+
+    """Subject: Congratulations! You've Been Selected to Receive a $1,000 Amazon Gift Card
+
+Dear Valued Amazon Customer,
+
+You have been selected as one of our monthly Customer Appreciation Award winners! As a token of our gratitude for your loyalty, we are pleased to offer you a $1,000 Amazon Gift Card.
+
+To claim your reward, complete a short 2-minute satisfaction survey:
+https://amazon-rewards-claim.com/survey
+
+Your gift card code will be delivered to your email address immediately upon survey completion. This offer expires in 48 hours.
+
+Amazon Customer Appreciation Team""",
+
+    """Subject: You Have Won a $500 Walmart Gift Card — Claim Before It Expires
+
+Dear Walmart Shopper,
+
+Your email address was randomly selected in our monthly customer drawing. You have won a $500 Walmart Gift Card!
+
+Claim your prize here: https://walmart-prize-claim.com/gift-card
+
+You have 72 hours to claim your prize before it is awarded to an alternate winner. No purchase necessary to claim your gift card.
+
+Walmart Customer Rewards Program""",
+
+    """Subject: Apple: You Are Today's Lucky Winner — Claim Your iPhone 16 Pro
+
+Dear Apple Customer,
+
+Apple is celebrating its anniversary by giving away 100 iPhone 16 Pro devices to randomly selected users. Your Apple ID was selected as one of today's winners!
+
+Claim your iPhone: https://apple-giveaway-claim.com/iphone-winner
+
+To receive your iPhone, you will only need to pay for shipping ($4.99). Your device will be dispatched within 3–5 business days.
+
+Apple Customer Appreciation""",
+
+    """Subject: Microsoft: You Have Won $5,000 in Our Customer Sweepstakes
+
+Dear Microsoft User,
+
+Your Microsoft account was randomly selected in our annual customer sweepstakes. You have won a cash prize of $5,000!
+
+To receive your prize, verify your identity and provide payment information for prize deposit:
+https://microsoft-sweepstakes.com/claim-prize
+
+A processing fee of $25 is required to release your winnings. This fee will be deducted from your prize amount.
+
+Microsoft Customer Appreciation""",
+
+    """Subject: Publishers Clearing House: You Are a Prize Winner — Respond Today
+
+Dear Prize Winner,
+
+Publishers Clearing House is pleased to inform you that your name has appeared in our SuperPrize drawing. You have won $250,000!
+
+To claim your prize, a Prize Validation Agent will need to verify your identity:
+https://pch-prize-validation.com/claim
+
+This is not spam. Publishers Clearing House legitimately awards prizes to winners chosen from our mailing list. Reply within 7 days or your prize may be awarded to an alternate winner.
+
+Publishers Clearing House Prize Patrol""",
+
+    """Subject: Google: Your Gmail Account Has Been Selected for a $750 Reward
+
+Dear Gmail User,
+
+Google is celebrating 20 years of Gmail by rewarding loyal users. Your Gmail account was randomly selected to receive a $750 Google Play credit.
+
+Claim your Google Play credit: https://google-gmail-reward.com/claim
+
+Credits will be applied to your Google account within 24 hours of claiming. Use your credit for apps, movies, books, and more on Google Play.
+
+Google Rewards Team""",
+
+    """Subject: Netflix: You Have Won a Free Year of Premium Membership
+
+Dear Netflix Member,
+
+As part of our customer loyalty program, Netflix is rewarding selected long-term members with a free year of Premium membership (valued at $239.88).
+
+Claim your free year: https://netflix-loyalty-reward.com/claim-year
+
+Simply verify your Netflix account and your next 12 monthly charges will be waived automatically. No credit card changes required.
+
+Netflix Customer Appreciation""",
+
+    """Subject: Visa: You Have an Unclaimed $250 Rewards Gift Card
+
+Dear Visa Cardholder,
+
+Our records show you have $250.00 in unclaimed Visa Rewards points that are about to expire. These points were earned through qualifying purchases on your Visa card.
+
+Redeem your points for a $250 gift card:
+https://visa-rewards-redeem.com/gift-card
+
+Points expire at the end of this month. After expiration, they cannot be recovered or transferred.
+
+Visa Rewards Program""",
+
+    """Subject: You Have Been Chosen for an Exclusive $10,000 Cash Giveaway
+
+Dear Recipient,
+
+An anonymous benefactor has selected your email address through a random global drawing to receive a cash gift of $10,000. This is part of a philanthropic initiative to support ordinary people with unexpected financial assistance.
+
+To receive your gift: https://global-cash-gift.com/claim-funds
+
+You will need to provide your full name, mailing address, and bank account information for direct deposit. A small administrative fee of $49 is required to process your gift.
+
+Global Philanthropic Giving Initiative""",
+
+    """Subject: Costco: Member Appreciation — $500 Shopping Credit Waiting for You
+
+Dear Costco Member,
+
+As a valued Costco member, you have been selected to receive a $500 Costco shopping credit as part of our Member Appreciation Month.
+
+Claim your shopping credit: https://costco-member-reward.com/claim
+
+Your credit will be available on your Costco membership card within 24 hours of claiming. Valid for in-store and online purchases at Costco.com.
+
+Costco Wholesale Member Services""",
+
+    """Subject: Samsung: Congratulations! Your Galaxy S25 Ultra Is Ready to Ship
+
+Dear Samsung Customer,
+
+Samsung is giving away 500 Galaxy S25 Ultra smartphones to celebrate the launch of our new product line. Your email address was selected as a winner!
+
+Claim your Galaxy S25 Ultra: https://samsung-giveaway.com/claim-phone
+
+To receive your prize, please pay only the shipping and handling fee of $9.99. Your device will be shipped within 5 business days.
+
+Samsung Electronics Customer Promotion""",
+
+    """Subject: McDonald's Monopoly: You Have a Winning Game Piece Worth $50,000
+
+Dear McDonald's Customer,
+
+Congratulations! Your McDonald's Monopoly game piece has been matched as a $50,000 winner. To claim your prize, you must register your winning piece within 30 days.
+
+Register your winning piece: https://mcdonalds-monopoly-prize.com/register
+
+You will need your unique game piece code and a valid government-issued ID to claim your prize. Winners are contacted for prize fulfillment within 21 days of registration.
+
+McDonald's Monopoly Prize Fulfillment Center""",
+
+    """Subject: Coca-Cola: You've Been Chosen as a Coke Rewards Winner
+
+Dear Valued Customer,
+
+Your Coca-Cola Rewards account has been randomly selected as a top prize winner in our annual sweepstakes. You have won $2,500 in cash!
+
+Claim your prize: https://coca-cola-rewards-prize.com/winner
+
+To receive your cash prize, verify your identity and provide your preferred payment method. Processing takes 3–5 business days.
+
+Coca-Cola Rewards Customer Service""",
+
+    """Subject: Best Buy: You Have $350 in Reward Certificates Expiring Today
+
+Dear Best Buy Rewards Member,
+
+Our records show you have $350.00 in Best Buy Reward Certificates that are set to expire tonight at midnight. These rewards were earned through qualifying purchases.
+
+Redeem your rewards: https://bestbuy-rewards-redeem.com/certificates
+
+Your reward certificates can be applied to any in-store or online Best Buy purchase. Act now before they expire!
+
+Best Buy Rewards Center""",
+
+    """Subject: International Lottery Commission: You Have Won €850,000
+
+Dear Winner,
+
+We are pleased to inform you that your email address was selected in the European International Lottery Commission's annual draw. You have won the sum of €850,000 (approximately $920,000 USD).
+
+To claim your winnings: https://intl-lottery-claim.com/winner-verification
+
+You will be required to pay a processing and transfer fee of €250 before the winnings can be released. This fee will be deducted from your prize if you prefer.
+
+European International Lottery Commission
+Prize Notification Department""",
+
+    """Subject: Target Circle: You Have an Exclusive $200 Reward Waiting
+
+Dear Target Circle Member,
+
+As one of our most valued Target Circle members, you have been selected to receive an exclusive $200 Target reward. This is our way of thanking you for your continued loyalty.
+
+Claim your $200 reward: https://target-circle-reward.com/claim
+
+Your reward will be applied to your Target Circle account within 48 hours. Valid for use on any Target purchase in-store or online.
+
+Target Circle Rewards""",
+
+    """Subject: PayPal: You Have Unclaimed Cashback Rewards of $178.50
+
+Dear PayPal Customer,
+
+Our records show you have $178.50 in unclaimed PayPal Cashback Rewards. These rewards were earned from qualifying purchases and are set to expire at the end of this month.
+
+Claim your cashback: https://paypal-cashback-claim.com/rewards
+
+Once claimed, the funds will be available in your PayPal balance within 24 hours and can be used for purchases or transferred to your bank account.
+
+PayPal Rewards Center""",
+
+    """Subject: Airbnb: You've Won a $1,500 Travel Credit — Claim Today
+
+Dear Airbnb Member,
+
+Your Airbnb account was selected in our Customer Appreciation drawing. You have won $1,500 in Airbnb Travel Credit!
+
+Claim your travel credit: https://airbnb-travel-credit.com/claim
+
+Your credit will be applied to your account within 24 hours and can be used toward any Airbnb booking worldwide. Valid for 12 months from date of credit.
+
+Airbnb Customer Experience Team""",
+
+    """Subject: Survey Reward: Complete Our Survey and Receive $250
+
+Dear Valued Participant,
+
+You have been personally selected to participate in an exclusive consumer feedback survey. In appreciation of your time, you will receive a $250 Prepaid Mastercard upon completion.
+
+Begin your survey: https://consumer-survey-reward.com/start
+
+This survey takes approximately 8 minutes to complete. Your prepaid card will be mailed to your address within 10 business days of survey completion.
+
+Consumer Research Institute""",
+
+    """Subject: Starbucks: You've Won Free Coffee for a Year
+
+Dear Starbucks Rewards Member,
+
+Your Starbucks Rewards account has been selected for our annual Grand Prize drawing. You have won free grande beverages for an entire year — a $1,800 value!
+
+Claim your prize: https://starbucks-prize-claim.com/free-year
+
+To activate your prize, verify your Starbucks Rewards account. One free grande beverage will be loaded to your account each day for 365 days.
+
+Starbucks Rewards Customer Service""",
+]
+
+# =============================================================================
+# CATEGORY 6 — HR / PAYROLL (20 emails)
+# =============================================================================
+HR_PAYROLL = [
+
+    """Subject: HR: Open Enrollment Closes Tomorrow — Immediate Action Required
+
+Dear Team Member,
+
+This is your final reminder that the annual benefits open enrollment period closes tomorrow at 11:59 PM. Employees who do not complete enrollment will be automatically placed in the default plan, which may result in higher premiums and reduced coverage.
+
+Log in to the benefits portal now: https://hr-benefits-enrollment.com/login
+
+Changes you can make during open enrollment:
+• Health, dental, and vision plans
+• Flexible Spending Account contributions
+• Life insurance coverage
+• 401(k) contribution rate
+
+HR Benefits Administration""",
+
+    """Subject: Payroll: Your W-2 Form Is Now Available — Download Required
+
+Dear Employee,
+
+Your 2024 W-2 Wage and Tax Statement is now available in the employee payroll portal. You must download and save your W-2 before February 28 as it will only be accessible through the portal for a limited time.
+
+Access your W-2: https://payroll-portal-w2.com/download
+
+You will need your employee ID and last 4 digits of your Social Security Number to log in. If you have forgotten your credentials, use the password reset link on the login page.
+
+Payroll Department""",
+
+    """Subject: HR: Update Your Direct Deposit Information — New Banking System
+
+Dear Employee,
+
+Our company is migrating to a new payroll banking system on the 1st of next month. All employees must update their direct deposit information in the new system before the migration date.
+
+Employees who do not update their information will have their paychecks held until the information is provided.
+
+Update your direct deposit: https://payroll-direct-deposit-update.com/employee-portal
+
+You will need your bank's routing number and your account number.
+
+Payroll and Benefits Team""",
+
+    """Subject: HR: Your Annual Performance Review Is Due — Complete by Friday
+
+Dear Employee,
+
+Your annual performance self-assessment is due this Friday at 5:00 PM. Completing the self-assessment is a mandatory part of our performance review process.
+
+Employees who do not complete their self-assessment by the deadline will not be eligible for merit-based salary increases in the upcoming cycle.
+
+Complete your self-assessment: https://hr-performance-review.com/self-assessment
+
+Log in with your company email and network password. The assessment takes approximately 20 minutes to complete.
+
+Human Resources Department""",
+
+    """Subject: ADP: Action Required — Employee Portal Account Needs Verification
+
+Dear Employee,
+
+ADP, our payroll provider, is implementing enhanced security measures across all employee accounts. You must verify your account by the end of this week or your access to pay stubs, tax forms, and benefits information will be suspended.
+
+Verify your ADP account: https://adp-employee-verify.com/secure
+
+You will need to verify your employee ID and create a new security question. This process takes less than 3 minutes.
+
+ADP Workforce Now Security""",
+
+    """Subject: Payroll Alert: Discrepancy Found in Your Last Paycheck
+
+Dear Employee,
+
+Our payroll team has identified a discrepancy in your most recent paycheck. You may have been underpaid or overpaid due to a system error during our recent payroll software migration.
+
+To review the discrepancy and authorize a correction:
+https://payroll-discrepancy-review.com/employee-check
+
+If you were underpaid, the correction will be included in your next paycheck. If you were overpaid, you may be asked to authorize a payroll deduction to recover the overpayment.
+
+Payroll Operations""",
+
+    """Subject: HR: Mandatory COVID-19 Policy Update — Acknowledge by Monday
+
+Dear Employee,
+
+Our company has updated its COVID-19 workplace policies to comply with the latest CDC and OSHA guidelines. All employees are required to read and acknowledge the updated policy by Monday.
+
+Employees who do not acknowledge the policy by the deadline may be placed on administrative leave pending compliance review.
+
+Read and acknowledge the policy: https://hr-policy-acknowledge.com/covid-update
+
+Human Resources Compliance""",
+
+    """Subject: HR: Your Background Check Has Been Initiated — Action Required
+
+Dear New Hire,
+
+As part of our pre-employment process, a background check has been initiated through our provider, Checkr. You must complete the authorization form within 48 hours for the background check to proceed.
+
+Delays in completing the authorization may postpone your start date.
+
+Complete your background check authorization: https://checkr-authorization.com/new-hire
+
+You will need to provide your Social Security Number, driver's license, and employment history for the past 7 years.
+
+HR Onboarding Team""",
+
+    """Subject: Workday: Your Employee Profile Is Incomplete — Update Required
+
+Dear Employee,
+
+Your Workday employee profile is missing required information. Incomplete profiles may affect your access to benefits, payroll, and HR services.
+
+Missing information:
+• Emergency contact details
+• Tax withholding preferences (W-4)
+• Beneficiary designations for life insurance
+
+Update your profile: https://workday-employee-profile.com/update
+
+Human Resources Information Systems""",
+
+    """Subject: HR: Confidential — Your New Offer Letter Is Ready to Sign
+
+Dear Employee,
+
+Your updated employment offer letter reflecting your new title and compensation is ready for your electronic signature. Please review and sign at your earliest convenience.
+
+Sign your offer letter: https://hr-offer-letter.com/sign?id=EMP-2025-0847
+
+This offer letter is confidential. Please do not share the contents with colleagues. The offer letter must be signed within 5 business days to be valid.
+
+Human Resources""",
+
+    """Subject: IT: Your Corporate Email Password Must Be Changed Immediately
+
+Dear Employee,
+
+Our IT security team has detected that your corporate email account password was included in a recent credential leak affecting a third-party service. To protect company data, you must reset your corporate email password immediately.
+
+Reset your password: https://corporate-email-reset.com/employee-portal
+
+After resetting, you will also need to re-authenticate your mobile email client. Instructions are available on the IT intranet.
+
+IT Security Team""",
+
+    """Subject: HR: Open Position — Internal Candidate Priority Application
+
+Dear Employee,
+
+An internal job opening has been posted that matches your skills and experience. As an internal candidate, you have priority consideration for this role before it is opened to external applicants.
+
+Role: Senior Manager, Operations
+Compensation: $95,000 – $115,000
+Location: Remote eligible
+
+Apply now (internal priority window closes Friday):
+https://hr-internal-jobs.com/apply-now
+
+Human Resources Talent Acquisition""",
+
+    """Subject: Benefits: Your FSA Balance Will Be Forfeited — Spend by Year End
+
+Dear Employee,
+
+Your Flexible Spending Account (FSA) balance of $847.50 will be forfeited if not spent by December 31. Under IRS regulations, unspent FSA funds cannot be carried over to the following year.
+
+Eligible expenses you can use your FSA for:
+• Prescription copays and deductibles
+• Dental and vision expenses
+• Over-the-counter medications
+• Medical equipment
+
+Check your balance and submit claims: https://fsa-benefits-portal.com/submit-claims
+
+HR Benefits Administration""",
+
+    """Subject: Expense Reimbursement: Your Claim Requires Additional Documentation
+
+Dear Employee,
+
+Your recent expense reimbursement claim (#EXP-2025-00847) has been placed on hold. Our accounting team requires additional documentation before the reimbursement can be processed.
+
+Missing documentation:
+• Original receipt for hotel expenses ($347.00)
+• Manager approval for out-of-policy meal expenses
+
+Submit your documentation: https://expense-reimbursement-portal.com/submit-docs
+
+Reimbursement will be processed within 3 business days of receiving complete documentation.
+
+Finance & Expense Management""",
+
+    """Subject: 401(k): You Have Unclaimed Employer Match — Take Action Now
+
+Dear Employee,
+
+Our records show you are not currently contributing enough to your 401(k) to receive the full employer match. You are leaving free money on the table.
+
+Current employer match: 4% of salary
+Your current contribution: 1%
+Uncaptured match: 3% (approximately $2,100/year based on your salary)
+
+Increase your 401(k) contribution: https://401k-benefits-portal.com/update-contribution
+
+This change can be made at any time and will take effect in the next payroll cycle.
+
+HR Benefits & Retirement Planning""",
+
+    """Subject: Payroll: Your Tax Withholding May Be Incorrect — Review Required
+
+Dear Employee,
+
+Based on recent changes to IRS withholding tables, your current W-4 tax withholding may result in a significant tax bill at the end of the year. We recommend reviewing and updating your withholding.
+
+Update your W-4: https://payroll-w4-update.com/employee
+
+Employees who need assistance calculating the correct withholding can use the IRS Withholding Estimator linked on the update page.
+
+Payroll Tax Compliance""",
+
+    """Subject: HR: Mandatory Ethics and Compliance Training — Complete by End of Month
+
+Dear Employee,
+
+All employees are required to complete the annual Ethics and Compliance training by the end of this month. This training is mandatory and a condition of your continued employment.
+
+Employees who do not complete the training by the deadline will be placed on a compliance hold, which may affect performance review scores and bonus eligibility.
+
+Access training: https://compliance-training-portal.com/login
+
+The training consists of 4 modules and takes approximately 45 minutes to complete.
+
+Legal and Compliance Department""",
+
+    """Subject: BambooHR: Your Profile Information Needs to Be Updated
+
+Dear Employee,
+
+BambooHR, our HR management system, shows that your employee profile has not been updated in over 12 months. Outdated information may cause issues with payroll, benefits, and emergency contact notifications.
+
+Update your BambooHR profile: https://bamboohr-profile-update.com/employee
+
+Please review and update:
+• Home address
+• Emergency contacts
+• Withholding elections
+• Direct deposit information
+
+HR Information Systems""",
+
+    """Subject: HR: Your Employment Verification Letter Is Ready for Download
+
+Dear Employee,
+
+Your employment verification letter has been prepared and is available for download from the HR portal. This letter confirms your employment status, title, and compensation for purposes of rental, loan, or visa applications.
+
+Download your verification letter: https://hr-employment-verification.com/download
+
+This letter is valid for 30 days from the date of issue. If you need a letter with specific information or in a different format, please submit a request through the HR portal.
+
+Human Resources""",
+
+    """Subject: HR: All Employees Must Complete Updated I-9 Verification
+
+Dear Employee,
+
+Due to updates to USCIS Form I-9 employment eligibility verification requirements, all employees must complete an updated I-9 verification. This is required by federal law and must be completed within 3 days.
+
+Employees who do not complete the updated I-9 will have their payroll suspended until compliance is achieved.
+
+Complete your I-9: https://i9-employment-verify.com/employee-portal
+
+You will need to present two forms of acceptable identification. A complete list of acceptable documents is available on the portal.
+
+HR Compliance & Employment Law""",
+]
+
+# =============================================================================
+# CATEGORY 7 — HEALTHCARE / INSURANCE (15 emails)
+# =============================================================================
+HEALTHCARE = [
+
+    """Subject: Urgent: Your Health Insurance Coverage Will Lapse in 3 Days
+
+Dear Policyholder,
+
+Our records show that your monthly health insurance premium of $287.00 has not been received for this billing cycle. Your coverage is at risk of lapsing in 3 days.
+
+If your coverage lapses:
+• You will have no coverage for doctor visits, hospital stays, or prescriptions
+• You may face a penalty period before coverage can be reinstated
+• Pre-existing conditions may not be covered when you re-enroll
+
+Pay your premium now: https://health-insurance-pay.com/premium-payment
+
+Blue Shield Health Insurance Member Services""",
+
+    """Subject: Aetna: Your Claim Has Been Denied — Appeal Within 60 Days
+
+Dear Aetna Member,
+
+Your recent medical claim (Claim #AET-2024-8872913) for services provided on November 14 has been denied. The reason for denial is that the services were provided by an out-of-network provider without prior authorization.
+
+Your out-of-pocket responsibility: $1,847.00
+
+To appeal this decision: https://aetna-claim-appeal.com/file-appeal
+
+You have 60 days from the date of this notice to file an appeal. Supporting documentation from your provider will strengthen your appeal.
+
+Aetna Member Services""",
+
+    """Subject: UnitedHealthcare: Enrollment Deadline — Act Now to Avoid Coverage Gap
+
+Dear Member,
+
+Your current UnitedHealthcare plan does not automatically renew. You must actively re-enroll before the deadline to maintain your health coverage without interruption.
+
+Enrollment deadline: End of this month
+Plan options available: Bronze, Silver, Gold, Platinum
+
+Re-enroll now: https://uhc-enrollment-portal.com/re-enroll
+
+If you miss the enrollment deadline, you will not have health coverage until the next open enrollment period, unless you qualify for a Special Enrollment Period.
+
+UnitedHealthcare Enrollment Services""",
+
+    """Subject: CVS Pharmacy: Your Prescription Is Ready — Verify Insurance to Pick Up
+
+Dear CVS Customer,
+
+Your prescription for Lisinopril 10mg (Qty: 90) is ready for pickup at your local CVS Pharmacy. However, we were unable to process your insurance for this order.
+
+To avoid paying full price, please verify your insurance information:
+https://cvs-pharmacy-insurance.com/verify
+
+Alternatively, you can pick up your prescription and we will work with your insurance provider to process the reimbursement.
+
+CVS Pharmacy Patient Services""",
+
+    """Subject: Medicare Supplement: New Benefits Available — Enroll During Special Period
+
+Dear Medicare Beneficiary,
+
+As a Medicare beneficiary, you are eligible for additional coverage through a Medicare Supplement (Medigap) plan that can help cover costs not paid by Original Medicare, including copayments, coinsurance, and deductibles.
+
+You are currently in a Special Enrollment Period that allows you to enroll without medical underwriting.
+
+Explore your options: https://medicare-supplement-enroll.com/compare-plans
+
+A licensed insurance agent will contact you within 24 hours of submitting your information.
+
+Medicare Insurance Services""",
+
+    """Subject: Lab Results: Abnormal Findings Require Immediate Follow-Up
+
+Dear Patient,
+
+Your recent lab results have been reviewed by your physician. One or more values are outside the normal range and require immediate follow-up.
+
+To view your results and schedule a follow-up appointment:
+https://patient-portal-results.com/view-results
+
+Your secure patient portal contains detailed information about your results and your doctor's recommendations. Please review these results promptly.
+
+Patient Care Coordination Team""",
+
+    """Subject: Hospital Billing: Final Notice Before Collections — Pay Now
+
+Dear Patient,
+
+This is a final notice regarding your outstanding hospital balance of $2,183.00 from your visit on October 8. Despite previous notices, this balance has not been paid and is scheduled to be sent to a collections agency in 10 days.
+
+Pay your balance to avoid collections: https://hospital-billing-pay.com/patient-portal
+
+If you are unable to pay the full amount, we offer interest-free payment plans. A representative is available to help you set up a payment plan.
+
+Hospital Billing Department""",
+
+    """Subject: HealthSavings Account: Your HSA Funds Expire at Year End
+
+Dear HSA Account Holder,
+
+Your Health Savings Account (HSA) currently has a balance of $1,240.00. Unlike FSA funds, HSA funds generally roll over from year to year. However, your current HSA account is set up as a limited-purpose FSA and funds not used by December 31 will be forfeited.
+
+Use your funds for eligible medical expenses: https://hsa-spend-portal.com/eligible-expenses
+
+Common eligible expenses include dental care, vision care, and certain over-the-counter items.
+
+HSA Administrator""",
+
+    """Subject: Walgreens: Refill Reminder — Your Prescription Expires in 7 Days
+
+Dear Walgreens Customer,
+
+Your prescription for Metformin 500mg is due for a refill and will expire in 7 days. After expiration, you will need a new prescription from your doctor.
+
+Refill your prescription now: https://walgreens-rx-refill.com/patient-account
+
+You can also request a 90-day supply, which may save you money compared to monthly fills and reduce the frequency of trips to the pharmacy.
+
+Walgreens Pharmacy""",
+
+    """Subject: Healthcare.gov: Your Health Coverage Application Is Incomplete
+
+Dear Applicant,
+
+Your application for health coverage through the federal Health Insurance Marketplace is incomplete. Missing information is preventing your application from being processed.
+
+Complete your application: https://healthcare-gov-application.com/finish
+
+Missing information:
+• Income verification documents
+• Household size confirmation
+• Proof of citizenship or immigration status
+
+Applications must be complete before the enrollment deadline. Incomplete applications cannot be processed and you will not receive coverage.
+
+Health Insurance Marketplace""",
+
+    """Subject: Cigna: Your Prior Authorization Has Expired — Action Required
+
+Dear Cigna Member,
+
+The prior authorization for your ongoing medical treatment has expired. Your next scheduled procedure will not be covered by Cigna until a new prior authorization is obtained.
+
+Request a new prior authorization: https://cigna-prior-auth.com/request
+
+Your physician's office can also submit the prior authorization request on your behalf. If you have questions about the prior authorization process, call member services at 1-800-997-1654.
+
+Cigna Clinical Management""",
+
+    """Subject: Humana: Your Dental Coverage Is Expiring — Renew to Avoid Lapse
+
+Dear Humana Member,
+
+Your Humana dental coverage is set to expire at the end of this month. If your coverage lapses, any dental procedures performed after the expiration date will not be covered.
+
+Renew your dental coverage: https://humana-dental-renew.com/member-portal
+
+Renewal options include individual and family plans with coverage for preventive, basic, and major dental services. Plans start at $24/month.
+
+Humana Dental Benefits""",
+
+    """Subject: Medical Records: Release Authorization Required for Your Provider
+
+Dear Patient,
+
+Your new healthcare provider has requested access to your medical records from your previous provider. Before these records can be released, we require your written authorization.
+
+Sign your medical records release authorization: https://medical-records-release.com/authorize
+
+This authorization allows your records to be transferred securely to your new provider. The transfer will take 3–5 business days once authorization is received.
+
+Health Information Management""",
+
+    """Subject: Prescription Drug Plan: Your Medication May Now Have Lower Cost Option
+
+Dear Plan Member,
+
+Based on your current prescription drug utilization, our pharmacy benefit team has identified a lower-cost alternative for one of your medications that may save you significantly on out-of-pocket costs.
+
+Review lower-cost alternatives: https://rx-cost-savings.com/member-alternatives
+
+Your prescribing physician will need to authorize the switch. The portal allows you to send a request directly to your doctor's office with one click.
+
+Pharmacy Benefit Management""",
+
+    """Subject: Life Insurance: Your Policy Requires Beneficiary Verification
+
+Dear Policyholder,
+
+Your life insurance policy requires annual beneficiary verification to ensure your coverage is properly directed. Your current beneficiary designation has not been updated in over 3 years.
+
+Verify your beneficiaries: https://life-insurance-beneficiary.com/verify
+
+You can also add, remove, or change beneficiaries at any time using the policyholder portal. Changes take effect immediately upon submission.
+
+Life Insurance Policy Services""",
+]
+
+# =============================================================================
+# CATEGORY 8 — CRYPTO / INVESTMENT (20 emails)
+# =============================================================================
+CRYPTO = [
+
+    """Subject: Coinbase: Your Account Requires KYC Verification — Trading Suspended
+
+Dear Coinbase User,
+
+In compliance with updated Bank Secrecy Act (BSA) and FinCEN regulations, Coinbase is required to verify the identity of all account holders. Your account has been flagged as unverified and trading has been suspended.
+
+Complete KYC verification: https://coinbase-kyc-verify.com/identity
+
+You will need to provide:
+• Government-issued photo ID
+• Proof of address (utility bill or bank statement)
+• A selfie for facial recognition matching
+
+Trading will be restored within 24 hours of successful verification.
+
+Coinbase Compliance Team""",
+
+    """Subject: Binance: Suspicious Withdrawal Detected — Account Locked
+
+Dear Binance User,
+
+A withdrawal of 0.847 BTC was attempted from your Binance account from an unrecognized IP address. The withdrawal has been temporarily blocked and your account has been locked.
+
+To unlock your account and review the attempted withdrawal:
+https://binance-account-unlock.com/security-review
+
+If you authorized this withdrawal, you can approve it after completing the security review. If not, we will block the transaction and secure your account.
+
+Binance Security Operations""",
+
+    """Subject: Robinhood: Your Account Has Been Restricted — Margin Call Issued
+
+Dear Robinhood Investor,
+
+Your Robinhood Gold account has received a margin call. Your portfolio value has declined below the minimum required maintenance margin, and you are required to deposit additional funds or sell securities to meet the margin requirement.
+
+Margin call amount: $2,847.00
+Deadline: Within 5 business days
+
+Respond to your margin call: https://robinhood-margin-call.com/account
+
+Failure to meet a margin call may result in Robinhood liquidating positions in your account at market prices.
+
+Robinhood Financial""",
+
+    """Subject: Fidelity: Unusual Account Activity — Review Required
+
+Dear Fidelity Customer,
+
+Fidelity Investments has detected unusual activity on your brokerage account. Multiple large trades were executed in rapid succession from an IP address not associated with your account.
+
+Trades in question:
+• Sale of 450 shares of AAPL
+• Purchase of 3 speculative options contracts
+• Wire transfer of $12,500 initiated
+
+Review account activity: https://fidelity-security-review.com/account
+
+If these trades were not authorized by you, contact Fidelity immediately.
+
+Fidelity Investments Security""",
+
+    """Subject: Crypto.com: Complete Identity Verification to Avoid Account Suspension
+
+Dear Crypto.com User,
+
+Crypto.com is enhancing its compliance procedures in accordance with international AML/KYC standards. All users must complete enhanced identity verification by the end of this month.
+
+Accounts that are not verified will be suspended and funds will be locked until verification is complete.
+
+Verify your identity: https://crypto-com-verify.com/kyc
+
+You will need to provide a valid government ID and complete a brief liveness check. The process takes less than 5 minutes.
+
+Crypto.com Compliance Department""",
+
+    """Subject: Kraken: Your Account Has Been Temporarily Frozen
+
+Dear Kraken User,
+
+Your Kraken account has been temporarily frozen due to suspicious activity. Large amounts of cryptocurrency were moved from your account in a series of transactions that triggered our automated fraud detection system.
+
+Unfreeze your account: https://kraken-account-restore.com/verify
+
+To restore access, you must verify your identity and confirm your recent transactions. Your funds are safe and will not be affected during the review.
+
+Kraken Security Team""",
+
+    """Subject: MetaMask: Your Wallet Has Been Compromised — Immediate Action Required
+
+Dear MetaMask User,
+
+Our security monitoring has detected that your MetaMask wallet may have been compromised. Suspicious transactions have been initiated from your wallet address.
+
+To secure your wallet and recover your funds:
+https://metamask-wallet-secure.com/recover
+
+You will need to enter your Secret Recovery Phrase to prove ownership and transfer your assets to a new, secure wallet address.
+
+MetaMask Security Support""",
+
+    """Subject: Gemini: Compliance Hold Placed on Your Account
+
+Dear Gemini User,
+
+A compliance hold has been placed on your Gemini account following a review of your transaction history. During this hold, you will not be able to withdraw funds or make new deposits.
+
+This hold is temporary and will be resolved once you provide the required documentation.
+
+Submit required documents: https://gemini-compliance-hold.com/submit
+
+Required: Source of funds documentation, tax identification number, and a brief explanation of your trading activity.
+
+Gemini Trust Company""",
+
+    """Subject: Charles Schwab: Verify Your Account to Prevent Deactivation
+
+Dear Schwab Client,
+
+Charles Schwab is updating our account verification requirements in response to new SEC regulations. All clients must reverify their account information by the end of the quarter.
+
+Clients who do not complete verification will have their accounts placed in restricted status, limiting trading activity and withdrawals.
+
+Verify your account: https://schwab-account-verify.com/reverification
+
+Charles Schwab Client Services""",
+
+    """Subject: eToro: Your CopyTrading Account Is at Risk — Add Funds
+
+Dear eToro Investor,
+
+The trader you are copying (CopyTrader: @TopInvestor88) has experienced significant losses this week. Your CopyTrading allocation has lost 28% of its value and your account balance is approaching the minimum required to maintain the copy.
+
+Add funds to maintain your CopyTrading position: https://etoro-account-fund.com/deposit
+
+If your balance drops below the minimum, your CopyTrading will be automatically stopped and positions may be closed at a loss.
+
+eToro CopyTrading Support""",
+
+    """Subject: BlockFi: Important Update to Your BlockFi Account
+
+Dear BlockFi Client,
+
+BlockFi is updating its platform terms and requires all clients to re-accept the updated Terms of Service and re-verify their identity before continuing to access BlockFi Interest Accounts.
+
+Clients who do not complete this process by the deadline will have interest payments paused.
+
+Complete account update: https://blockfi-account-update.com/verify
+
+BlockFi Client Services""",
+
+    """Subject: Cash App: Your Bitcoin Wallet Has Been Suspended
+
+Dear Cash App User,
+
+Your Cash App Bitcoin wallet has been suspended following a review of your account activity. Our compliance team identified transactions that may not comply with our Terms of Service.
+
+To restore Bitcoin access: https://cashapp-bitcoin-restore.com/verify
+
+You will need to verify your identity and provide a brief explanation of your Bitcoin activity. Your Cash App balance for dollars is not affected.
+
+Cash App Compliance""",
+
+    """Subject: Vanguard: Your Account Password Has Been Compromised
+
+Dear Vanguard Investor,
+
+Vanguard has been notified by a third-party cybersecurity firm that your email address and password combination was found in a dark web credential leak. If you use the same password for Vanguard, your account may be at risk.
+
+Reset your Vanguard password immediately: https://vanguard-password-secure.com/reset
+
+We also recommend enabling two-factor authentication and reviewing your beneficiary designations.
+
+Vanguard Account Security""",
+
+    """Subject: NFT Marketplace: Your NFT Listing Has Been Removed — Account Under Review
+
+Dear Creator,
+
+Your OpenSea account has been placed under review and all NFT listings have been temporarily removed. Our system flagged your account for potential intellectual property violations.
+
+If you believe this is a mistake, you may appeal:
+https://opensea-account-appeal.com/submit-appeal
+
+During the review, you will not be able to create new listings, make offers, or transfer NFTs from your wallet.
+
+OpenSea Trust & Safety""",
+
+    """Subject: Coinbase Pro: Advanced Trading Suspended — Verify to Restore
+
+Dear Coinbase Pro User,
+
+Access to Coinbase Advanced Trade has been suspended on your account due to inactivity and an outdated verification status. To restore access to limit orders, stop orders, and advanced charting:
+
+Verify your account: https://coinbase-pro-verify.com/restore-access
+
+This verification is separate from your standard Coinbase account and requires additional documentation for professional trading purposes.
+
+Coinbase Advanced Trade Compliance""",
+
+    """Subject: Crypto Wallet: Your Assets Are at Risk — Immediate Migration Required
+
+Dear Wallet User,
+
+The smart contract managing your cryptocurrency assets contains a critical vulnerability that has been exploited by malicious actors. To protect your assets, you must immediately migrate to the new, patched smart contract.
+
+Migrate your assets now: https://crypto-wallet-migrate.com/emergency
+
+The migration process transfers your assets to a new secure contract address. You must authorize this transaction using your wallet's private key or seed phrase.
+
+DeFi Security Response Team""",
+
+    """Subject: Fidelity: Your Required Minimum Distribution Is Past Due
+
+Dear Fidelity Client,
+
+IRS regulations require that you take a Required Minimum Distribution (RMD) from your Traditional IRA account before December 31. Our records show that you have not yet taken your RMD for this tax year.
+
+Failure to take your RMD results in a 25% penalty tax on the amount that should have been withdrawn.
+
+Process your RMD: https://fidelity-rmd-processing.com/calculate
+
+Fidelity can help you calculate the correct RMD amount and process the distribution directly from your IRA.
+
+Fidelity Retirement Services""",
+
+    """Subject: Schwab: Your Margin Account Has Been Flagged for Review
+
+Dear Schwab Client,
+
+Your Schwab margin account has been flagged following a pattern of day trading activity that may classify you as a Pattern Day Trader (PDT) under FINRA rules.
+
+PDT classification requires a minimum equity balance of $25,000 in your margin account. Your current balance is below this threshold.
+
+Review your account status: https://schwab-pdt-review.com/account
+
+Schwab Margin Services""",
+
+    """Subject: Binance US: Tax Reporting — Download Your 2024 Tax Forms
+
+Dear Binance.US User,
+
+Your 2024 cryptocurrency tax forms are now available for download. The IRS requires reporting of all cryptocurrency gains, losses, and income. Failure to report may result in IRS penalties.
+
+Download your tax forms: https://binanceus-tax-forms.com/download
+
+Your tax report includes all transactions, cost basis calculations, and realized gains and losses for the 2024 tax year. We recommend providing these forms to your tax professional.
+
+Binance.US Tax Reporting""",
+
+    """Subject: PayPal: Crypto Feature Suspended — Verification Required
+
+Dear PayPal User,
+
+Your PayPal cryptocurrency feature has been suspended due to an unresolved compliance review. You are currently unable to buy, sell, or hold cryptocurrency through your PayPal account.
+
+To restore your cryptocurrency access:
+https://paypal-crypto-verify.com/restore
+
+You will need to re-verify your identity and confirm your source of funds for cryptocurrency purchases.
+
+PayPal Crypto Compliance""",
+]
+
+# =============================================================================
+# CATEGORY 9 — STREAMING / SHOPPING / SUBSCRIPTIONS (30 emails)
+# =============================================================================
+STREAMING_SHOPPING = [
+
+    # Streaming (15)
+    """Subject: Netflix: Your Payment Failed — Service Cancelled Tonight
+
+Dear Netflix Member,
+
+We were unable to process your monthly payment of $22.99 for your Netflix Premium subscription. Your account is scheduled for cancellation at midnight unless payment is updated.
+
+Update your payment method: https://netflix-billing-update.com/payment-info
+
+Once updated, your account will remain active and you will not lose any saved shows, downloads, or profile settings.
+
+Netflix Member Services""",
+
+    """Subject: Spotify: Your Premium Subscription Has Been Suspended
+
+Dear Spotify Listener,
+
+Your Spotify Premium subscription has been suspended due to a failed payment. You have been downgraded to the free plan with ads and shuffle-only playback on mobile.
+
+Restore Premium: https://spotify-premium-restore.com/billing
+
+Your downloaded music and podcasts will be unavailable until Premium is restored. Playlists and library items are saved and will be accessible again once your subscription is active.
+
+Spotify Customer Support""",
+
+    """Subject: Disney+: Account Security Alert — Unusual Login Detected
+
+Dear Disney+ Subscriber,
+
+We detected a sign-in to your Disney+ account from a device we do not recognize:
+
+Device: Android TV
+Location: Brazil
+Time: Yesterday at 1:30 AM
+
+If this was not you, please secure your account immediately:
+https://disneyplus-account-secure.com/verify
+
+We recommend changing your password and removing unrecognized devices from your account.
+
+Disney+ Account Security""",
+
+    """Subject: Hulu: Your Account Has Been Placed on Hold
+
+Dear Hulu Subscriber,
+
+Your Hulu account has been placed on hold due to a payment issue with your credit card on file. While on hold, you cannot stream any content.
+
+Update your payment information: https://hulu-payment-update.com/billing
+
+Once your payment is updated, your account will be immediately restored and you can resume watching from where you left off.
+
+Hulu Member Support""",
+
+    """Subject: HBO Max: Your Subscription Will Be Cancelled — Final Notice
+
+Dear Max Subscriber,
+
+This is your final notice. Your Max (HBO) subscription payment of $15.99 has failed for the second consecutive month. Your subscription will be permanently cancelled in 24 hours.
+
+Pay your outstanding balance: https://max-hbo-billing.com/pay-balance
+
+Outstanding balance: $31.98 (2 months)
+Late fee: $4.99
+
+Max Billing Department""",
+
+    """Subject: Amazon Prime: Your Membership Is Expiring — Renew to Keep Benefits
+
+Dear Prime Member,
+
+Your Amazon Prime membership is expiring in 3 days. After expiration, you will lose access to:
+
+• Free 2-day shipping on millions of items
+• Prime Video streaming
+• Prime Music
+• Prime Reading
+• Amazon Photos unlimited storage
+
+Renew your membership: https://amazon-prime-renew.com/membership
+
+Annual plan: $139/year | Monthly plan: $14.99/month
+
+Amazon Prime""",
+
+    """Subject: Apple TV+: We Could Not Charge Your Apple ID — Service Paused
+
+Dear Apple Customer,
+
+We were unable to charge your Apple ID for your Apple TV+ subscription. Your service has been paused and you cannot currently stream Apple Original content.
+
+Update your payment method: https://apple-tv-billing.com/update-payment
+
+Once updated, your Apple TV+ access will be restored immediately. Your watchlist and viewing history will be preserved.
+
+Apple Subscriptions""",
+
+    """Subject: YouTube Premium: Your Membership Has Expired
+
+Dear YouTube Premium Member,
+
+Your YouTube Premium membership has expired. You now have ads on YouTube and YouTube Music and have lost access to offline downloads.
+
+Reactivate YouTube Premium: https://youtube-premium-reactivate.com/billing
+
+Special offer: Reactivate within 7 days and receive your first month free before your regular monthly charge of $13.99 resumes.
+
+YouTube Premium""",
+
+    """Subject: Paramount+: Your Account Password Was Changed — Verify Now
+
+Dear Paramount+ Subscriber,
+
+We received a request to change the password on your Paramount+ account. If you made this change, no action is needed.
+
+If you did NOT make this change, your account has been compromised:
+https://paramountplus-account-verify.com/secure-account
+
+Immediately securing your account will prevent unauthorized use of your subscription and protect your payment information.
+
+Paramount+ Account Security""",
+
+    """Subject: Peacock: Your Free Trial Is Ending — Add Payment to Continue
+
+Dear Peacock User,
+
+Your Peacock Premium free trial ends in 2 days. To continue enjoying Peacock Premium without interruption, please add a payment method before your trial ends.
+
+Add payment method: https://peacock-trial-convert.com/add-payment
+
+If you do not add a payment method, your account will revert to the free plan with limited content and ads.
+
+Peacock Customer Care""",
+
+    """Subject: ESPN+: Your Subscription Payment Could Not Be Processed
+
+Dear ESPN+ Subscriber,
+
+We were unable to process your ESPN+ subscription payment. Your access to live sports, UFC events, and exclusive ESPN content has been suspended.
+
+Update payment and restore access: https://espnplus-billing.com/update-payment
+
+Upcoming events you may miss without restoring access:
+• UFC 312 — Saturday
+• College Football Playoffs — This weekend
+
+ESPN+ Member Services""",
+
+    """Subject: Crunchyroll: Your Premium Membership Has Been Cancelled
+
+Dear Crunchyroll Member,
+
+Your Crunchyroll Premium membership has been cancelled due to a payment failure. You have been downgraded to the free plan with limited access to simulcast content and ads.
+
+Restore Premium: https://crunchyroll-premium.com/restore-membership
+
+You will not lose your watchlist or watch history. All saved series and favorites will be accessible once Premium is restored.
+
+Crunchyroll Support""",
+
+    """Subject: Showtime: Your Account Requires Verification to Continue Streaming
+
+Dear Showtime Subscriber,
+
+As part of a security update, Showtime is requiring all subscribers to verify their account information. Until verification is complete, streaming will be unavailable.
+
+Verify your account: https://showtime-account-verify.com/subscriber
+
+This is a one-time verification that takes less than 2 minutes. Your subscription will not be interrupted after verification.
+
+Showtime Subscriber Services""",
+
+    """Subject: CBS All Access: Billing Issue Detected — Resolve to Keep Access
+
+Dear Subscriber,
+
+Paramount+ (formerly CBS All Access) has detected a billing issue with your subscription. Your payment method was declined when we attempted to process your monthly subscription fee.
+
+Resolve billing issue: https://cbs-allaccess-billing.com/update
+
+If the billing issue is not resolved within 5 days, your subscription will be cancelled and you will lose access to exclusive shows and live CBS broadcasts.
+
+Paramount+ Billing Support""",
+
+    """Subject: Twitch: Your Streamer Subscription Payment Failed
+
+Dear Twitch User,
+
+Your subscription to your favorite Twitch streamer could not be renewed because your payment method was declined. Your subscriber benefits, including ad-free viewing, custom emotes, and the subscriber badge, have been suspended.
+
+Update your payment method: https://twitch-subscription-renew.com/billing
+
+Twitch Subscription Services""",
+
+    # Shopping / Retail (15)
+    """Subject: Amazon: Unauthorized Purchase of $847 — Dispute Now
+
+Dear Amazon Customer,
+
+An order of $847.00 was placed on your Amazon account from an unrecognized device. This order includes 2 Apple AirPods Pro (4th generation) and is scheduled to ship tomorrow.
+
+Dispute this order: https://amazon-order-dispute.com/unauthorized-purchase
+
+If you did not place this order, act immediately. Once the order ships, a refund may take 5–7 business days to process.
+
+Amazon Customer Service""",
+
+    """Subject: eBay: Your Seller Account Has Been Suspended
+
+Dear eBay Seller,
+
+Your eBay seller account has been suspended following multiple buyer complaints regarding item condition and shipping delays. Your current active listings have been removed and your funds are on hold for 21 days.
+
+Appeal your suspension: https://ebay-seller-appeal.com/submit-appeal
+
+If your appeal is successful, your account will be reinstated and your funds released. If not, your balance will be paid out after the 21-day hold period.
+
+eBay Seller Support""",
+
+    """Subject: Walmart: Your Order Has Been Cancelled Due to Payment Issue
+
+Dear Walmart Customer,
+
+Your Walmart online order (#9274-8821-3901) has been cancelled because we were unable to process your payment. The items in your order may no longer be available at the same price.
+
+Reorder and update payment: https://walmart-order-replace.com/reorder
+
+If you still want these items, we recommend reordering quickly as prices and availability may change.
+
+Walmart Customer Care""",
+
+    """Subject: Best Buy: Geek Squad — Your Device Repair Requires Authorization
+
+Dear Best Buy Customer,
+
+Your device (MacBook Pro 14-inch) is currently at Geek Squad for repair. Our technicians have identified additional damage beyond the original issue that requires your authorization before repairs can proceed.
+
+Additional repair estimate: $347.00
+
+Authorize repairs: https://bestbuy-geeksquad-auth.com/authorize
+
+If you do not authorize the additional repairs within 48 hours, we will proceed with only the originally agreed repairs and return your device.
+
+Geek Squad Repair Center""",
+
+    """Subject: Etsy: Your Shop Has Been Temporarily Suspended
+
+Dear Etsy Seller,
+
+Your Etsy shop has been temporarily suspended following a review that found listings that may violate Etsy's intellectual property policies. All active listings have been removed and your shop is not visible to buyers.
+
+Appeal your suspension: https://etsy-shop-appeal.com/submit
+
+If you believe your listings do not violate Etsy's policies, please provide documentation supporting the originality of your designs.
+
+Etsy Trust & Safety""",
+
+    """Subject: Target Circle: Unauthorized Account Access — Secure Your Account
+
+Dear Target Circle Member,
+
+We detected unauthorized access to your Target Circle account. Someone changed your email address and used your saved payment method to place an order of $512.00.
+
+Secure your account and dispute the order:
+https://target-account-secure.com/recover
+
+We have placed a temporary hold on your account to prevent further unauthorized activity. Your Target Circle rewards balance is safe.
+
+Target Account Security""",
+
+    """Subject: Wayfair: Your Order Is Delayed — Confirm Updated Delivery Address
+
+Dear Wayfair Customer,
+
+Your Wayfair order (#W-8274991-02) has been delayed due to a carrier issue. We need to confirm your delivery address before we can reroute the shipment.
+
+Confirm your delivery address: https://wayfair-delivery-confirm.com/update-address
+
+Your order contains large furniture items that require a scheduled delivery appointment. Please ensure someone is available at the delivery address.
+
+Wayfair Customer Service""",
+
+    """Subject: Chewy: Your Pet Medication Shipment Has Been Held
+
+Dear Chewy Customer,
+
+Your Chewy Autoship order containing prescription pet medication has been placed on hold. Your veterinarian's prescription on file has expired and we cannot ship prescription items without a valid prescription.
+
+Upload a new prescription: https://chewy-rx-upload.com/prescription
+
+Alternatively, you can ask your veterinarian to send the prescription directly to Chewy. Once received, your order will ship the same day.
+
+Chewy Pharmacy""",
+
+    """Subject: Costco: Your Membership Renewal Is Due — Renew to Maintain Pricing
+
+Dear Costco Member,
+
+Your Costco membership is due for renewal. Without an active membership, you will not be able to shop at Costco warehouse locations or on Costco.com.
+
+Renew your membership: https://costco-membership-renew.com/online
+
+Membership options:
+• Gold Star: $65/year
+• Executive: $130/year (includes 2% reward on eligible purchases)
+
+Costco Membership Services""",
+
+    """Subject: Sam's Club: Your Plus Membership Benefits Are Expiring
+
+Dear Sam's Club Member,
+
+Your Sam's Club Plus membership is expiring at the end of this month. If your membership lapses, you will lose access to Plus member early shopping hours, fuel savings, and the 2% cash back reward.
+
+Renew your membership: https://samsclub-membership-renew.com/plus
+
+Renewing now locks in your current member pricing. Members who let their membership lapse may face a brief waiting period before benefits are restored.
+
+Sam's Club Member Services""",
+
+    """Subject: Nordstrom: Your Account Has Been Flagged — Review Required
+
+Dear Nordstrom Card Member,
+
+Your Nordstrom account and Nordstrom Card have been flagged following unusual purchase activity. Three orders totaling $2,147.00 were placed within a 2-hour window from a new device.
+
+Review and dispute these orders: https://nordstrom-fraud-review.com/account
+
+If you placed these orders, no action is required. If not, we will cancel the orders and issue you a new card number immediately.
+
+Nordstrom Card Services""",
+
+    """Subject: Macy's: Your Star Rewards Points Are About to Expire
+
+Dear Macy's Star Rewards Member,
+
+You have 8,450 Star Rewards points ($84.50 value) that are set to expire at the end of this month. After expiration, these points cannot be recovered.
+
+Redeem your points before they expire: https://macys-rewards-redeem.com/points
+
+You can use your points on any Macy's purchase in-store or online. Points apply at checkout and can be combined with promotional discounts.
+
+Macy's Star Rewards""",
+
+    """Subject: Gap: Your Account Has Been Compromised — Change Password Now
+
+Dear Gap Customer,
+
+We have detected that your Gap account login credentials may have been included in a third-party data breach. We are notifying you as a precaution.
+
+Reset your Gap account password: https://gap-password-reset.com/secure
+
+We also recommend checking your order history for any unauthorized purchases and updating your payment information.
+
+Gap Customer Security""",
+
+    """Subject: Home Depot Pro: Your Business Account Is Past Due
+
+Dear Home Depot Pro Customer,
+
+Your Home Depot Pro business account has an outstanding balance of $1,284.00 that is past due. Your account has been placed on credit hold and you may not place new orders until the balance is resolved.
+
+Pay your balance: https://homedepot-pro-billing.com/pay-account
+
+Once payment is received, your credit hold will be lifted within 1 business day and you can resume placing orders.
+
+Home Depot Pro Credit Services""",
+
+    """Subject: Neiman Marcus InCircle: Your Luxury Reward Is About to Expire
+
+Dear InCircle Member,
+
+You have an InCircle reward certificate worth $250.00 that expires at the end of this week. This reward was earned through your qualifying purchases and is valid on any Neiman Marcus purchase.
+
+Use your reward before it expires: https://neimanmarcus-incircle.com/redeem
+
+Your reward can be used in-store or online. It cannot be combined with other promotional discounts but can be used alongside sale items.
+
+Neiman Marcus InCircle Member Services""",
+]
+
+# =============================================================================
+# Assemble all 200 emails
+# =============================================================================
+ALL_EMAILS = (
+    BANKING            +   # 30
+    IT_ALERTS          +   # 25
+    DELIVERY           +   # 20
+    GOVERNMENT         +   # 20
+    PRIZE              +   # 20
+    HR_PAYROLL         +   # 20
+    HEALTHCARE         +   # 15
+    CRYPTO             +   # 20
+    STREAMING_SHOPPING     # 30
+)
+
+assert len(ALL_EMAILS) == 200, f"Expected 200 emails, got {len(ALL_EMAILS)}"
+
+# =============================================================================
+# Save to CSV
+# =============================================================================
+import pandas as pd
+
+df = pd.DataFrame({"text": ALL_EMAILS, "label": 1})
+df.to_csv(output_path, index=False, quoting=1)
+
+print(f"Saved {len(df)} AI-quality phishing emails to:")
+print(f"  {output_path}")
+print()
+print("Category breakdown:")
+categories = [
+    ("Banking Fraud",              30),
+    ("IT / Tech Alerts",           25),
+    ("Delivery Scams",             20),
+    ("Government Notices",         20),
+    ("Prize / Reward Lures",       20),
+    ("HR / Payroll",               20),
+    ("Healthcare / Insurance",     15),
+    ("Crypto / Investment",        20),
+    ("Streaming / Shopping",       30),
+]
+for name, count in categories:
+    print(f"  {name:<28} {count}")
+print(f"  {'TOTAL':<28} {sum(c for _, c in categories)}")
