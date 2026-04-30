@@ -1,0 +1,5 @@
+Model,Test Set,accuracy,precision,recall,f1_score
+Baseline LinearSVM,Traditional (16K),0.9867,0.9849,0.9896,0.9873
+Baseline LinearSVM,AI holdout (150 new),0.88,1.0,0.88,0.9361702127659575
+Ensemble (new),Traditional (16K),0.9819666138662118,0.9761685470872669,0.9896125116713352,0.9828445577837023
+Ensemble (new),AI holdout (150 new),0.9933333333333333,1.0,0.9933333333333333,0.9966555183946488
