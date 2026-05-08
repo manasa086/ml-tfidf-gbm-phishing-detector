@@ -2,11 +2,6 @@
 
 A two-layer ensemble phishing detection system that closes the detection gap between traditional TF-IDF-based classifiers and AI-generated phishing emails.
 
-> **CS 671: Cybersecurity** — New Jersey Institute of Technology  
-> Vengala Rao Penubakula · Manasa Somisetty · Shiva Sharan Voddinani  
-> Professor Yashas Hariprasad, Ph.D. · May 2026
-
----
 
 ## Overview
 
@@ -145,7 +140,4 @@ Open and run notebooks `01` → `02` → `03` → `04` → `05` sequentially.
 ---
 
 ## Authors
-
-- **Vengala Rao Penubakula** — NJIT
-- **Manasa Somisetty** — NJIT
-- **Shiva Sharan Voddinani** — NJIT
+- **Manasa Somisetty**
